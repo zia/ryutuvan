@@ -195,14 +195,23 @@ body {
     font-size:18px;
 }
 
-.SO_input1 {
+.SO_input1, .SO_input2 {
     width:40px;
-/*    font-size:13px;*/
+    /*font-size:13px;*/
     font-size:18px;
     text-align:right;
     border-width:0px 0px 0px 0px;
-    background-color:#FFF2CC;
     ime-mode:disabled;
+}
+
+.SO_input1 {
+    background-color:#FFFFFF;
+    text-align: center;
+}
+
+.SO_input2 {
+    background-color:#FFF2CC;
+    text-align: center;
 }
 
 .SO_fc_text {

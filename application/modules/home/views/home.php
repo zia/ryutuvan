@@ -83,6 +83,7 @@
 							<tr>
 								<td>
 									<div class="scroll_div">
+										<!-- If kbd navigation is required, should be applied on this table -->
 										<table border="0" align="center" cellspacing="1" class="SO_bg" _fixedhead="rows:2; cols:5">
 											
 											<!--Data Table Header Starts -->
@@ -91,83 +92,59 @@
 												<th class="SO_title2" rowspan="2" nowrap>商品名</th>
 												<th class="SO_title3" rowspan="2" nowrap></th>
 												<th class="SO_title4" colspan="3">全体</th>
-												<th class="SO_th3" nowrap>
-												<th class='SO_title3' colspan='3'>百合ヶ丘　001</th>
-												
-												<input type='hidden' name='S_1' id='S_1' value='百合ヶ丘'>
-												
-												<th class='SO_title3' colspan='3'>築地本店　001</th>
-												
-												<input type='hidden' name='S_2' id='S_2' value='築地本店'>
-												
-												<th class='SO_title3' colspan='3'>上野　001</th>
-												
-												<input type='hidden' name='S_3' id='S_3' value='上野'>
-												
-												<th class='SO_title3' colspan='3'>渋谷　001</th>
-												
-												<input type='hidden' name='S_4' id='S_4' value='渋谷'>
-												
-												<th class='SO_title3' colspan='3'>瀬田支店　10000001</th>
-												
-												<input type='hidden' name='S_5' id='S_5' value='瀬田支店'>
-												
-												<th class='SO_title3' colspan='3'>サイクル早稲田　708</th>
-												
-												<input type='hidden' name='S_6' id='S_6' value='サイクル早稲田'>
-												
-												<th class='SO_title3' colspan='3'>九番店　900</th>
-												
-												<input type='hidden' name='S_7' id='S_7' value='九番店'>
-												
-												<th class='SO_title3' colspan='3'>十番店　1000</th>
-												
-												<input type='hidden' name='S_8' id='S_8' value='十番店'>
+
+												<!-- Border -->
+												<th class="SO_th3" nowrap></th>
+
+												<?php
+													/**
+													* This is dynamic header rows
+													*/
+													for($j=0;$j<8;$j++) {
+												?>
+													<!-- Dynamic column header name and number here -->
+													<th class='SO_title3' colspan='3'><?='百合ヶ丘'?>　00<?=$j?></th>
+												<?php		
+													}
+												?>
 											</tr>
 											<!-- Row 2 -->
 											<tr>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_th3" nowrap>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
-												<th class="SO_title5" nowrap>ｹｰｽ</th>
-												<th class="SO_title5" nowrap>ﾎﾞｰﾙ</th>
-												<th class="SO_title5" nowrap>ﾊﾞﾗ</th>
+												<th class="SO_title5" nowrap><?='ｹｰｽ'?></th>
+												<th class="SO_title5" nowrap><?='ﾎﾞｰﾙ'?></th>
+												<th class="SO_title5" nowrap><?='ﾊﾞﾗ'?></th>
+
+												<th class="SO_th3" nowrap></th>
+
+												<?php
+													/**
+													* Each Header got 3 sub columns
+													*/
+													for($k=0;$k<$j;$k++) {
+												?>
+														<th class="SO_title5" nowrap><?='ｹｰｽ'?></th>
+														<th class="SO_title5" nowrap><?='ﾎﾞｰﾙ'?></th>
+														<th class="SO_title5" nowrap><?='ﾊﾞﾗ'?></th>
+												<?php		
+													}
+												?>
 											</tr>
 											<!--Data Table Header Ends -->
 
 											<!--Data Table Data Starts -->
 											<?php
+												/**
+												* Data Rows
+												*/
 												for($i=0;$i<2;$i++) {
 											?>
-													<!-- Row 1 -->
+													<!-- Row <?=$i?> white -->
 													<tr>
 														<td class='SO_td1' rowspan='2'>
 															<table border='0' width='100%'>
 																<tr>
 																	<td align='left' nowrap>
-																		ランダムアイテム 1 〜 100ユニット
+																		ランダムアイテム <?=$i?> 〜 100ユニット
 																	</td>
 																</tr>
 																<tr>
@@ -185,88 +162,25 @@
 														<!-- Border -->
 														<th class='SO_th3'></th>
 
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td2'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td3'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
+														<?php
+															$c=0;
+															for($l=0;$l<$j;$l++) {
+														?>
+															<td class='SO_td1'>
+																<input class="SO_input1" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+															</td>
+															<td class='SO_td2'>
+																<input class="SO_input1" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+															</td>
+															<td class='SO_td3'>
+																<input class="SO_input1" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+															</td>
+														<?php		
+															}
+														?>
 													</tr>
 
-													<!-- Row 2 -->
+													<!-- Row <?=$i?> red -->
 													<tr>
 														<td class='SO_tdn'>確定</td>
 														
@@ -280,85 +194,22 @@
 														<!-- Border -->
 														<th class='SO_th3'></th>
 
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-
-														<td class='SO_td4'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td5'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
-														<td class='SO_td6'>
-															<input class="SO_input1" type="number" name="input<?=$i?>" value="0" min="0">
-														</td>
+														<?php
+															$c = 0;
+															for($m=0;$m<$j;$m++) {
+														?>
+																<td class='SO_td4'>
+																	<input class="SO_input2" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+																</td>
+																<td class='SO_td5'>
+																	<input class="SO_input2" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+																</td>
+																<td class='SO_td6'>
+																	<input class="SO_input2" type="number" name="row<?=$i?>col<?=$c++?>" value="0" min="0">
+																</td>
+														<?php		
+															}
+														?>
 													</tr>
 											<?php
 												}
@@ -384,5 +235,11 @@
 		<!-- Fixed Midashi -->
 		<script type="text/javascript" src="<?=base_url('assets/js/fixed_midashi.js')?>"></script>
 		<!-- Header Scripts ends -->
+
+		<!-- Calculation -->
+		<script type="text/javascript">
+			
+		</script>
+
 	</body>
 </html>
