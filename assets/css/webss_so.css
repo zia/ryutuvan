@@ -159,21 +159,39 @@ body {
 
 .SO_td2 {
     background-color: #FFFFFF;
-    text-align: right;
-    font-size:14px;
+    text-align: center;
 }
 
 .SO_td3 {
+    background-color: #FFFFFF;
+    text-align: center;
+}
+
+.SO_td4, .SO_td5, .SO_td6 {
+    background-color: #FFF2CC;
+    text-align: right;
+/*    font-size:14px;*/
+    font-size:18px;
+}
+
+.SO_tdn {
     background-color: #FFF2CC;
     text-align: center;
     height:30px;
     font-size:18px;
 }
 
-.SO_td4 {
+/* ------ summation columns : row 1 -> col 1, col 2, col 3 --------- */
+.SO_tdtr1c1, .SO_tdtr1c2, .SO_tdtr1c3 {
+    background-color: #FFFFFF;
+    text-align: center;
+    font-size:14px;
+}
+
+/* ------ summation columns : row 2 -> col 1, col 2, col 3 --------- */
+.SO_tdtr2c1, .SO_tdtr2c2, .SO_tdtr2c3 {
     background-color: #FFF2CC;
     text-align: right;
-/*    font-size:14px;*/
     font-size:18px;
 }
 

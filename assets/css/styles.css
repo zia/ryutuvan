@@ -1,6 +1,7 @@
 
 /* ---- Custom CSS ------ */
 
+/* Scrollable Table Data */
 div.scroll_div {
 	overflow: auto;
 }
