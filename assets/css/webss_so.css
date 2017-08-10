@@ -87,14 +87,6 @@ body {
     background-color: #2C0F62;
 }
 
-.SO_title1 {
-    background-color: #F4F9FF;
-    color: #077BEF;
-    text-align: center;
-    width: 50%;
-    white-space: nowrap;
-}
-
 .SO_data1 {
     background-color: #FFFFFF;
     text-align: center;
@@ -102,116 +94,77 @@ body {
     font-size: 20px;
 }
 
-
-.SO_title2 {
+.SO_title1, .SO_title2, .SO_title3, .SO_title4, .SO_title5, .SO_titleX {
     background-color: #F4F9FF;
     color: #077BEF;
-    width: 280px;
-/*    width:30%;*/
+    text-align: center;
     white-space: nowrap;
+}
+
+.SO_title4, .SO_title5, .SO_titleX {
+    height: 30px;
+}
+
+.SO_title1 {
+    width: 50%;
+}
+
+.SO_title2 {
+    width: 280px;
 }
 
 .SO_title3 {
-    background-color: #F4F9FF;
-    color: #077BEF;
     width: 60px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.SO_title4 {
-    background-color: #F4F9FF;
-    color: #077BEF;
-    height: 30px;
-    text-align: center;
-    white-space: nowrap;
 }
 
 .SO_title5 {
-    background-color: #F4F9FF;
-    color: #077BEF;
-/*    width: 40px;*/
     width: 45px;
-    height: 30px;
-    text-align: center;
-    white-space: nowrap;
-}
-
-.SO_titleX {
-    background-color: #F4F9FF;
-    color: #077BEF;
-    height: 30px;
-    text-align: center;
-    white-space: nowrap;
 }
 
 .SO_th3 {
     background-color:#000000;
     width: 1px;
-    /*height:60px;*/
     align: middle;
 }
 
-.SO_td1 {
+.SO_td1, .SO_td2, .SO_td3, .SO_td4, .SO_td5, .SO_td6, .SO_tdn {
     background-color: #FFFFFF;
     text-align: center;
 }
 
-.SO_td2 {
-    background-color: #FFFFFF;
-    text-align: center;
-}
-
-.SO_td3 {
-    background-color: #FFFFFF;
-    text-align: center;
-}
-
-.SO_td4, .SO_td5, .SO_td6 {
+.SO_td4, .SO_td5, .SO_td6, .SO_tdn {
     background-color: #FFF2CC;
-    text-align: right;
-/*    font-size:14px;*/
-    font-size:18px;
 }
 
 .SO_tdn {
-    background-color: #FFF2CC;
-    text-align: center;
     height:30px;
     font-size:18px;
 }
 
 /* ------ summation columns : row 1 -> col 1, col 2, col 3 --------- */
-.SO_tdtr1c1, .SO_tdtr1c2, .SO_tdtr1c3 {
+.SO_tdtr1c0, .SO_tdtr1c1, .SO_tdtr1c2, .SO_tdtr2c0, .SO_tdtr2c1, .SO_tdtr2c2 {
     background-color: #FFFFFF;
     text-align: center;
-    font-size:14px;
+    font-size:18px;
 }
 
 /* ------ summation columns : row 2 -> col 1, col 2, col 3 --------- */
-.SO_tdtr2c1, .SO_tdtr2c2, .SO_tdtr2c3 {
+.SO_tdtr2c0, .SO_tdtr2c1, .SO_tdtr2c2 {
     background-color: #FFF2CC;
-    text-align: right;
-    font-size:18px;
 }
 
 .SO_input1, .SO_input2 {
-    width:40px;
-    /*font-size:13px;*/
-    font-size:18px;
-    text-align:right;
-    border-width:0px 0px 0px 0px;
-    ime-mode:disabled;
-}
-
-.SO_input1 {
+    width: 43px;
+    height: 26px;
     background-color:#FFFFFF;
+    font-size: 14px;
     text-align: center;
+    border-width: 0px 0px 0px 0px;
+    ime-mode: disabled;
 }
 
 .SO_input2 {
     background-color:#FFF2CC;
-    text-align: center;
 }
 
 .SO_fc_text {
