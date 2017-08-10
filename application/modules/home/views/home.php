@@ -280,6 +280,16 @@
 			
 			$(document).ready(function() {
 			    /**
+			    * Disabling up and down key for number input
+			    */
+			    $('input').bind('keypress', function(e) {
+				    if(e.keyCode == 13 || e.keyCode == 40 ) {
+				        alert('pressed');
+				        //e.preventDefault();
+				    }
+				});
+
+			    /**
 			    * Calc
 			    */
 			    /*

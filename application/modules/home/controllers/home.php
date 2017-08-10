@@ -25,7 +25,8 @@ class Home extends CI_Controller {
 			'c2' => '百合ヶ丘 001',
 			'c3' => '百合ヶ丘 002',
 			'c4' => '百合ヶ丘 003',
-			'c5' => '百合ヶ丘 004'
+			'c5' => '百合ヶ丘 004',
+			'c6' => '百合ヶ丘 005'
 		);
 
 		$data['subheadings'] = (object) array (
@@ -60,12 +61,14 @@ class Home extends CI_Controller {
 			$sum = $sum + $inp;
 		}
 		
-		//$data = array(
-			//'total_0' => $sum
-		//);
+		/*
+		$data = array(
+			'total_0' => $sum
+		);
 
-		//$this->db->where('id', 1);
-		//$this->db->update('products', $data);
+		$this->db->where('id', 1);
+		$this->db->update('products', $data);
+		*/
 
 		echo json_encode($sum);
 	}

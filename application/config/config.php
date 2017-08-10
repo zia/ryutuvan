@@ -25,12 +25,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 /*global*/
-$config['base_url'] = 'https://ryutuvan.dhaka12.dev.jacos.jp';
+// $config['base_url'] = 'https://ryutuvan.dhaka12.dev.jacos.jp';
 
 /*local*/
-/*
-$config['base_url'] = 'http://localhost/ryutuvan/';
-*/
+$config['base_url'] = 'http://localhost/ryutuvan';
 
 
 /*

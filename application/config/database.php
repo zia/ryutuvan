@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 /**
 * Global
-*/
+
 
 $db['default'] = array(
 	'dsn'	=> '',
@@ -98,16 +98,18 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+*/
 
 /**
 * Local
 
-$db['local'] = array(
+*/
+$db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '10.128.10.10',
-	'username' => 'ryutsuvan',
-	'password' => 'GMXfst6y',
-	'database' => 'ryutsuvan',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'demo',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -123,5 +125,3 @@ $db['local'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-
-*/
