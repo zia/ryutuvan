@@ -20,7 +20,7 @@ class Home extends MY_Controller {
 	 */
 	public function index()
 	{
-		$data['headings'] = (object) array (
+		$data['headings'] = array (
 			'c1' => '上野 001',
 			'c2' => '渋谷 001',
 			'c3' => '瀬田支店 10000001',

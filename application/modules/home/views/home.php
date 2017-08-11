@@ -183,16 +183,21 @@
 
 													<?php
 														$c=0;
-														for($l=0;$l<$j;$l++) {
+														foreach ($headings as $heading) {
 													?>
 														<td class='SO_td1'>
-															<input class="SO_input1" type="number" name="r<?=$r?>c<?=$c?>" id="r<?=$r?>c<?=$c++?>" data-cat="<?=$r?>a" value="0" min="0">
+															<!--
+															<input class="SO_input1" type="number" name="r<?=$r?>c<?=$c?>" id="r<?=$r?>c<?=$c++?>" data-cat="<?=$r?>a" value="0" min="0">-->0
 														</td>
 														<td class='SO_td2'>
+															<!--
 															<input class="SO_input1" type="number" name="r<?=$r?>c<?=$c?>" id="r<?=$r?>c<?=$c++?>" data-cat="<?=$r?>b" value="0" min="0">
+															-->0
 														</td>
 														<td class='SO_td3'>
+															<!--
 															<input class="SO_input1" type="number" name="r<?=$r?>c<?=$c?>" id="r<?=$r?>c<?=$c++?>" data-cat="<?=$r?>c" value="0" min="0">
+															-->0
 														</td>
 													<?php		
 														}
@@ -227,7 +232,7 @@
 
 													<?php
 														$c = 0;
-														for($m=0;$m<$j;$m++) {
+														foreach ($headings as $heading) {
 													?>
 															<td class='SO_td4'>
 																<input class="SO_input2" type="number" name="r<?=$r?>c<?=$c?>" id="r<?=$r?>c<?=$c++?>" data-cat="<?=$r?>a" value="0" min="0">
@@ -279,9 +284,43 @@
 		<script type="text/javascript">
 			
 			$(document).ready(function() {
-			    /**
-			    * Calc
-			    */
+				/* ------------ Calculation ------------ */
+				
+				/**
+				* Sets the initial summation columns value on document loading
+				*/
+				var sum_a= 0;
+				var sum_b= 0;
+				var sum_c= 0;
+
+				"<?php
+					$r = 1 ; $c = 0;
+					/* Products = Number of rows */
+					for($i=0;$i<count($products);$i++) {
+						/* Each Product got neumerous headings and each heading got 3 subheadings */
+						for($j=0; $j<count($headings);$j++) {
+				?>"
+							sum_a = sum_a + parseInt($("#r<?=$r?>c<?=$c++?>").val());
+							sum_b = sum_b + parseInt($("#r<?=$r?>c<?=$c++?>").val());
+							sum_c = sum_c + parseInt($("#r<?=$r?>c<?=$c++?>").val());
+							
+				"<?php
+						}
+				?>"
+						$("#r<?=$r?>ca").text(sum_a);
+						$("#r<?=$r?>cb").text(sum_b);
+						$("#r<?=$r?>cc").text(sum_c);
+				"<?php		
+						$r +=2; $c = 0;
+				?>"
+						/* Make sure one row's calculation dosen't go into another */
+						sum_a = 0;
+						sum_b = 0;
+						sum_c = 0;
+				"<?php
+					}
+				?>"
+
 			    /*
 			    $("input").focusout(function() {
 			       var aaa =  parseInt($(this).val());
@@ -298,17 +337,18 @@
 				numInputs.forEach(function (input) {
 				  input.addEventListener('change', function (e) {
 				    if (e.target.value == '') {
-				      e.target.value = 0
+				      e.target.value = 0;
 				    }
 				  })
 				});
 
 				
 				/**
+				* Saver
 				* Saving previous value of a cell
 				*/
 				$('input').on('focusin', function() {
-				    console.log("Saving value " + $(this).val());
+				    //console.log("Saving value " + $(this).val());
 				    $(this).data('val', $(this).val());
 				});
 
@@ -316,19 +356,60 @@
 				/**
 				* Updating value of a cell
 				*/
-				$('input').on('change', function() {
+				$('input').on('change', function(event) {
 			    	
-			    	var prev = $(this).data('val');
-				    var current = $(this).val();
-				    /*
+			    	/*
+				    conole.log(changed);
 				    console.log("Prev value " + prev);
 				    console.log("New value " + current);
 				    */
+
+				    /* Previous value of the changed element @Saver */
+			    	var prev = $(this).data('val');
+			    	/* New value of the changed element */
+				    var current = $(this).val();
+
+					/* Element changed */
+					var changed = event.target.id;
+
+					/* 
+					* First split based on column 'c' then
+					* split the existing string based on row 'r'
+					*/
+					/* Column */
+					var rest = changed.split("c");
+					var col = rest[1];
+
+					/* row */
+					var temp = rest[0].split("r");
+					var row = temp[1];
+					/* Got row and column of changed element */
 				    
+					/**
+					* If col%3 == 0 write in ca
+					* else if col%3 == 1 write in cb
+					* else write in cc
+					*/
+					var write = '';
+					if(col%3 == 0) {
+						write = 'a';
+					}
+					else if(col%3 == 1) {
+						write = 'b';
+					}
+					else {
+						write = 'c';
+					}
+
 				    /**
 				    * If value of an existing cell is smaller than the previous one
 				    */
 				    if(prev > current) {
+				    	/**
+				    	* Need to deduct the difference only
+				    	* Ex: summation column = 50, random value of a cell was 6 and updated to 4
+				    	* So the summation will be 48.
+				    	*/
 				    	var difference = prev - current;
 				    	$.ajax({
 				    		url: "<?=base_url('index.php/home/update')?>",
@@ -336,10 +417,10 @@
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"difference": difference,
-				    			"sum": parseInt($("td#r1ca").text())
+				    			"sum": parseInt($("#r"+row+"c"+write).text())
 				    		},
 				    		success: function(result) {
-					        	$("td#r1ca").text(result);
+					        	$("#r"+row+"c"+write).text(result);
 					    	},
 					    	error: function(e) {
 								console.log(e.message);
@@ -353,10 +434,10 @@
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"number": current,
-				    			"sum": parseInt($("td#r1ca").text())
+				    			"sum": parseInt($("#r"+row+"c"+write).text())
 				    		},
 				    		success: function(result) {
-					        	$("td#r1ca").text(result);
+					        	$("#r"+row+"c"+write).text(result);
 					    	},
 					    	error: function(e) {
 								console.log(e.message);
