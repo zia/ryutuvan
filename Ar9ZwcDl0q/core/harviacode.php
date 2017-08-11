@@ -31,15 +31,16 @@ class Harviacode
         * To Remove Global Access just remove 'global' below these codes
         */
 
-        $this->host = $db['local']['hostname'] ? $db['local']['hostname'] : $db['global']['hostname'];
-        $this->user = $db['local']['username'] ? $db['local']['username'] : $db['global']['username'];
-        $this->password = isset($db['local']['password']) ? $db['local']['password'] : $db['global']['password'];
-        $this->database = $db['local']['database'] ? $db['local']['database'] : $db['global']['database'];
+        $this->host = $db['local']['hostname'];
+        $this->user = $db['local']['username'];
+        $this->password = $db['local']['password'];
+        $this->database = $db['local']['database'];
 
         $this->sql = new mysqli($this->host, $this->user, $this->password, $this->database);
         if ($this->sql->connect_error)
         {
-            echo $this->sql->connect_error . ", please check 'application/config/database.php'.";
+            //echo $this->sql->connect_error . ", please check 'application/config/database.php'.";
+            echo "You don't have permission to aceess here!";
             die();
         }
         
