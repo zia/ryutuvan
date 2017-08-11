@@ -1,0 +1,23 @@
+
+/* ---- Custom CSS ------ */
+
+/* Scrollable Table Data */
+div.scroll_div {
+	overflow: auto;
+}
+
+/* ---- Number Input Without spinner ---- */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+/* ----- Spacing between 2 rows ----- */
+#test {
+	height: 250px;
+}
