@@ -29,18 +29,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*local*/
 
-$config['base_url'] = 'http://localhost/ryutuvan/';
+// $config['base_url'] = 'http://localhost/ryutuvan/';
 
 
 
 /*
 * Dynamic
-
+*/
 $root=(isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['HTTP_HOST'];
+// $root = "https://".$_SERVER['HTTP_HOST'];
 $root.= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $root;
 
-*/
 
 /*
 |--------------------------------------------------------------------------
