@@ -7,9 +7,9 @@ class Home extends MY_Controller {
 	 * Index Page for this controller.
 	 *
 	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
+	 * 		http://example.com/index.php/home
 	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
+	 * 		http://example.com/index.php/home/index
 	 *	- or -
 	 * Since this controller is set as the default controller in
 	 * config/routes.php, it's displayed at http://example.com/
@@ -20,52 +20,103 @@ class Home extends MY_Controller {
 	 */
 	public function index()
 	{
-		$data['headings'] = array (
-			'c1' => '上野 001',
-			'c2' => '渋谷 001',
-			'c3' => '瀬田支店 10000001',
-			'c4' => 'サイクル早稲田 708',
-			'c5' => '九番店 900'
-		);
+		$data['headings'] = $this->db->get('headings')->result();
 
-		$data['subheadings'] = (object) array (
-			's1' => 'ｹｰｽ',
-			's2' => 'ﾎﾞｰﾙ',
-			's3' => 'ﾊﾞﾗ'
-		);
+		$data['subheadings'] = $this->db->get('subheadings')->result();
 
 		$data['products'] = $this->db->get('products')->result();
+
+		$data['infos'] = $this->db->get('informations')->result();
 
 		$this->load->view('home',$data);
 	}
 
+	
 	/**
-	* Stores Results
+	* Updates info
 	*/
-
 	public function update() {
-		/**
-		* Use echo instead of return
-		*/
 
+		//Input
 		$inp = $this->input->post('number');
+
+		//row
+		$row = $this->input->post('row');
+
+		//column
+		$col = $this->input->post('col');
+
+		//product_id
+		$product_id = $this->input->post('product');
+
+		//To be written in
+		$write = $this->input->post('write');
+		
+		//Existing summation value
 		$sum = $this->input->post('sum');
 		
-		$diff = $this->input->post('difference');
+		//If new value is smaller than the previous one
+		$decreased_diff = $this->input->post('decreased_difference');
 
-		if(isset($diff)) {
-			$sum = $sum - $diff;
+		//If new value is greater than the previous one
+		$increased_diff = $this->input->post('increased_difference');
+
+		if(isset($decreased_diff)) {
+			//Decreased difference needs to be deducted
+			$sum = $sum - $decreased_diff;
+		}
+		elseif (isset($increased_diff)) {
+			//Increased difference needs to be added
+			$sum = $sum + $increased_diff;
 		}
 		else {
+			//If the difference is 0 or new and old cell value are same
+			//For new value just add with the previous one
 			$sum = $sum + $inp;
 		}
 		
-		//$data = array(
-			//'total_0' => $sum
-		//);
+		
+		//Store summation in products
+		if ($write === 'a') {
+			$cell = 'total_0';
+		}
+		elseif ($write === 'b') {
+			$cell = 'total_1';
+		}
+		else {
+			$cell = 'total_2';
+		}
 
-		//$this->db->where('id', 1);
-		//$this->db->update('products', $data);
+		$data = array(
+			$cell => $sum
+		);
+
+		$this->db->trans_start();
+		$this->db->where('id', $product_id);
+		$this->db->update('products', $data);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE) {
+        	return 'product_error';
+		}
+		//Storing in products ends
+
+		
+		//Store infos in informations
+		$array = array('row' => $row, 'col' => $col);
+		$data = array(
+			'data' => $inp
+		);
+		$this->db->trans_start();
+		$this->db->where($array);
+		$this->db->update('informations', $data);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status() === FALSE) {
+        	return 'information_error';
+		}
+		//storing infos ends
+		
 
 		echo json_encode($sum);
 	}

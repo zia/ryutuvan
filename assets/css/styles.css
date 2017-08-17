@@ -6,6 +6,13 @@ div.scroll_div {
 	overflow: auto;
 }
 
+/* ------ Seperator --------- */
+.seperator {
+	max-height: 450px;
+	overflow: scroll;
+	margin-top: 15px;
+}
+
 /* ---- Number Input Without spinner ---- */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -17,7 +24,21 @@ input[type=number] {
     -moz-appearance:textfield;
 }
 
-/* ----- Spacing between 2 rows ----- */
-#test {
-	height: 250px;
+/* ----- Internet Explorer specifi rules ----- */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	
+	.SO_title1, .SO_title2, .SO_title3, .SO_title4, .SO_title5, .SO_titleX {
+	    border: 1px solid black;
+	}
+
+	.SO_td1, .SO_td2, .SO_td3, .SO_td4, .SO_td5, .SO_td6, .SO_tdn {
+    	border: 1px solid black;
+	}
+
+	.SO_tdtr1c0, .SO_tdtr1c1, .SO_tdtr1c2, .SO_tdtr2c0, .SO_tdtr2c1, .SO_tdtr2c2 {
+    	border: 1px solid black;
+	}
+
+
+
 }
