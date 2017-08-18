@@ -151,6 +151,7 @@ body {
 /* ------ summation columns : row 2 -> col 1, col 2, col 3 --------- */
 .SO_tdtr2c0, .SO_tdtr2c1, .SO_tdtr2c2 {
     background-color: #FFF2CC;
+    padding: 0px 5px 0px 5px;
 }
 
 .SO_input1, .SO_input2 {
