@@ -165,7 +165,7 @@
 
 												<!-- Search Field -->
 												<th class="" colspan="9">
-													<input type="text" name="s_n_s" id="search_field" placeholder="サーチ">
+													<input type="text" name="s_n_s" id="search_field" placeholder="JANまたはインストア入力">
 												</th>
 
 												<!-- This empty cells colspan needs to calculated -->
@@ -494,13 +494,15 @@
 					if(term != ''){
 						$.ajax({
 				    		url: "<?=base_url('search/search_result')?>",
+				    		dataType: "JSON",
 				    		type: "POST",
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"term": term
 				    		},
 				    		success: function(result) {
-					        	alert(result);
+					        	var obj = jQuery.parseJSON(result);
+					        	alert(obj.title);
 					    	},
 					    	error: function(e) {
 								console.log(e.message);
