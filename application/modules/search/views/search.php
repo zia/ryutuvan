@@ -16,6 +16,7 @@
 		<title>受注＆欠品入力画面</title>
 		
 		<!-- Styles -->
+		
 		<!-- Font-Awesome -->
 		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
@@ -71,7 +72,7 @@
 
 					<a class="btn_primary" href="">終了</a>
 
-					<a class="btn_success" href="<?=base_url('search')?>">手書入力</a>
+					<a class="btn_success" href="<?=base_url()?>">手書入力</a>
 
 					<a class="btn_info" href="" class="btn">履歴</a>
 
@@ -100,9 +101,9 @@
 								<div class="scroll_div">
 									<!-- If kbd navigation is required, should be applied on this table -->
 									<!-- Calculation -->
-									<?=form_open('home/update')?>
+									<?=form_open('search/search_result')?>
 									<div class="seperator">
-										<table align="center" cellspacing="1" class="SO_bg" _fixedhead="rows:2; cols:5">
+										<table align="center" cellspacing="1" class="SO_bg" _fixedhead="rows:3; cols:5">
 											<!--Data Table Header Starts -->
 											<!-- Row 1 : Main Headers -->
 											<tr>
@@ -153,6 +154,22 @@
 														}
 													}
 												?>
+											</tr>
+											<!-- Row 3 : Search and Sort -->
+											<tr id="search_row">
+												<!-- There is Five Fixed header Columns -->
+												<th style="" class="" colspan="5">&nbsp;</th>
+
+												<!-- Centering the search field -->
+												<th class="" colspan="7">&nbsp;</th>
+
+												<!-- Search Field -->
+												<th class="" colspan="9">
+													<input type="text" name="s_n_s" id="search_field" placeholder="サーチ">
+												</th>
+
+												<!-- This empty cells colspan needs to calculated -->
+												<th class="" colspan="6">&nbsp;</th>
 											</tr>
 											<!--Data Table Header Ends -->
 
@@ -316,9 +333,10 @@
 			    	/* New value of the changed element */
 				    var current = $(this).val();
 
-				    if(current == '') {
-				    	$(this).val('0');
-				    }
+				    //Turning off temporarily
+				    //if(current == '') {
+				    	//$(this).val('0');
+				    //}
 
 					/* Element changed */
 					//var changed = event.target.id; -> FireFox dosen't support this.
@@ -464,6 +482,32 @@
 					    });
 				    }
 			    });
+			});
+		</script>
+
+		<!-- Search -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var term = '';
+				$('#search_field').on('keyup', function(event) {
+					term = $(this).val();
+					if(term != ''){
+						$.ajax({
+				    		url: "<?=base_url('search/search_result')?>",
+				    		type: "POST",
+				    		data: {
+				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
+				    			"term": term
+				    		},
+				    		success: function(result) {
+					        	alert(result);
+					    	},
+					    	error: function(e) {
+								console.log(e.message);
+						  	}
+					    });
+					}
+				});
 			});
 		</script>
 

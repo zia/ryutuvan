@@ -6,18 +6,7 @@ class Home extends MY_Controller {
 	/**
 	 * Index Page for this controller.
 	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/home
-	 *	- or -
-	 * 		http://example.com/index.php/home/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	*/
 	public function index()
 	{
 		$data['headings'] = $this->db->get('headings')->result();
@@ -33,31 +22,27 @@ class Home extends MY_Controller {
 
 	
 	/**
-	* Updates info
+	 * Updates info
+	 *
+	 * @param
+	 * @return $sum
 	*/
 	public function update() {
 
 		//Input
 		$inp = $this->input->post('number');
-
 		//row
 		$row = $this->input->post('row');
-
 		//column
 		$col = $this->input->post('col');
-
 		//product_id
 		$product_id = $this->input->post('product');
-
 		//To be written in
 		$write = $this->input->post('write');
-		
 		//Existing summation value
 		$sum = $this->input->post('sum');
-		
 		//If new value is smaller than the previous one
 		$decreased_diff = $this->input->post('decreased_difference');
-
 		//If new value is greater than the previous one
 		$increased_diff = $this->input->post('increased_difference');
 
@@ -117,7 +102,6 @@ class Home extends MY_Controller {
 		}
 		//storing infos ends
 		
-
 		echo json_encode($sum);
 	}
 }

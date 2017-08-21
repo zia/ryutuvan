@@ -12,13 +12,8 @@ body {
 
     width: 70px;
     height: 40px;
-/***
-    width: 60px;
-    height: 40px;
-***/
     color: #ffffff;
     border-style: none;
-/*    font-size: 14px;*/
     font-size: 16px;
     font-weight: bold;
     vertical-align: text-top;
@@ -124,10 +119,10 @@ body {
 .SO_th3 {
     background-color:#000000;
     width: 1px;
-    align: middle;
+    vertical-align: middle;
 }
 
-.SO_td1, .SO_td2, .SO_td3, .SO_td4, .SO_td5, .SO_td6, .SO_tdn {
+.SO_td1, .SO_td2, .SO_td3, .SO_td4, .SO_td5, .SO_td6 {
     background-color: #FFFFFF;
     text-align: center;
 }
@@ -137,8 +132,10 @@ body {
 }
 
 .SO_tdn {
+    background-color: #FFFFFF;
     height:30px;
     font-size:18px;
+    text-align: right;
 }
 
 /* ------ summation columns : row 1 -> col 1, col 2, col 3 --------- */
