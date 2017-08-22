@@ -166,6 +166,17 @@
 												<!-- Search Field -->
 												<th class="" colspan="9">
 													<input type="text" name="s_n_s" id="search_field" placeholder="JANまたはインストア入力">
+													<div id="live_search">
+														<table id="suggestionTable">
+															<tbody>
+																<tr>
+																	<th>SL.</th>
+																	<th>Product ID</th>
+																	<th>Product Name</th>
+																</tr>
+															</tbody>
+														</table>
+													</div>
 												</th>
 
 												<!-- This empty cells colspan needs to calculated -->
@@ -291,18 +302,10 @@
 		</table>
 		<!-- Header Scripts begins; Need to be on top; If Necessary -->
 		<!-- JQuery -->
-		<script
-			src="https://code.jquery.com/jquery-1.12.4.min.js"
-			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-			crossorigin="anonymous">
-		</script>
+		<script src="<?=base_url('assets/js/jquery.min.js')?>"></script>
 		
 		<!-- JQuery Migrate -->
-		<script
-  			src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"
-  			integrity="sha256-JklDYODbg0X+8sPiKkcFURb5z7RvlNMIaE3RA2z97vw="
-  			crossorigin="anonymous">
-  		</script>
+		<script src="<?=base_url('assets/js/jquery-migrate.js')?>"></script>
 		
 		<!-- Fixed Midashi -->
 		<script type="text/javascript" src="<?=base_url('assets/js/fixed_midashi.js')?>"></script>
@@ -317,7 +320,7 @@
 				* Saver
 				* Saving previous value of a cell
 				*/
-				$('input').on('focusin', function() {
+				$('.SO_input2').on('focusin', function() {
 				    //console.log("Saving value " + $(this).val());
 				    $(this).data('val', $(this).val());
 				});
@@ -326,7 +329,7 @@
 				/**
 				* Updating value of a cell
 				*/
-				$('input').on('change', function(event) {
+				$('.SO_input2').on('change', function(event) {
 
 				    /* Previous value of the changed element @Saver */
 			    	var prev = $(this).data('val');
@@ -489,26 +492,57 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				var term = '';
+				var data = '';
 				$('#search_field').on('keyup', function(event) {
-					term = $(this).val();
-					if(term != ''){
+					//if(event.keyCode != 8) {
+						//Show The Result section
+						$("#live_search").css("visibility", "visible");
+
+						term = $(this).val();
+						if(term != '') {
 						$.ajax({
 				    		url: "<?=base_url('search/search_result')?>",
-				    		dataType: "JSON",
+				    		cache: false,
 				    		type: "POST",
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"term": term
 				    		},
 				    		success: function(result) {
-					        	var obj = jQuery.parseJSON(result);
-					        	alert(obj.title);
+					        	if(result != 0) {
+					        		$(".no_match").remove();
+					        		$(".result_row").remove();
+					        		
+					        		//Match Found !
+					        		data = JSON.parse(result);
+					        		$.each( data, function( key, value ) {
+										$('#suggestionTable > tbody:last-child').append('<tr class="result_row"><td><a href="#">'+ ++key +'</a></td><td><a href="#">'+value.quantity+'</a></td><td><a href="#">'+value.title+'</a></td></tr>');
+									});
+					        	}
+					        	else {
+					        		$(".result_row").remove();
+					        		$(".no_match").remove();
+					        		
+					        		//No Match Found !
+					        		$('#suggestionTable > tbody:last-child').append(
+										'<tr class="no_match"><td colspan="3">No Match Found !</td></tr>'
+									);
+					        	}
 					    	},
 					    	error: function(e) {
 								console.log(e.message);
 						  	}
 					    });
-					}
+						}
+
+						else {
+							//Remove Things..
+							$(".result_row").remove();
+							$(".no_match").remove();
+							//On emtying field value
+							$("#live_search").css("visibility", "hidden");
+						}
+					//}
 				});
 			});
 		</script>

@@ -25,16 +25,29 @@ class Search extends MY_Controller {
 	public function search_result() {
 
 		$data = array(
-			'title' => $this->input->post('term')
+			'title' => $this->input->post('term'),
+			'quantity' => $this->input->post('term')
 		);
 
-		$query = $this->db->get_where('products', $data)->result();
+		//$query = $this->db->get_where('products', $data)->unbuffered_row();
+
+		//$query = $this->db->like('id', $this->input->post('term'));
+				 //$this->db->or_like('title', $this->input->post('term'));
+
+		//$query = $query->result();
+
+		//$query = $this->db->or_like($data)->result();
+
+
+		$query = $this->db->select('*')
+					->from('products')
+					->or_like($data)->get();
 		
-		if($query) {
-			echo json_encode($query);
+		if($query->num_rows()>0) {
+			echo json_encode($query->result());
 		}
 		else {
-			echo 'No match Found.';
+			echo 0;
 		}
 	}
 }
