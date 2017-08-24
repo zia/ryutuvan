@@ -134,7 +134,7 @@
 											<!-- Row 2 : Sub Headers-->
 											<tr>
 												<?php foreach($subheadings as $subheading) { ?>
-													<th class="SO_title5" nowrap>
+													<th class="SO_title5" style="padding: 1px 8px;"  nowrap>
 														<?=$subheading->title?>
 													</th>
 												<?php } ?>
