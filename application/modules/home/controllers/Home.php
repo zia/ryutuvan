@@ -13,7 +13,11 @@ class Home extends MY_Controller {
 
 		$data['subheadings'] = $this->db->get('subheadings')->result();
 
-		$data['products'] = $this->db->get('products')->result();
+		//$data['products'] = $this->db->get('products')->result();
+
+		$this->db->from('products');
+		$this->db->order_by("row", "asc");
+		$data['products'] = $this->db->get()->result();
 
 		$data['infos'] = $this->db->get('informations')->result();
 
@@ -72,35 +76,31 @@ class Home extends MY_Controller {
 			$cell = 'total_2';
 		}
 
-		$data = array(
+		// Store products in products table
+ 		$product_data = array(
 			$cell => $sum
 		);
-
-		$this->db->trans_start();
-		$this->db->where('id', $product_id);
-		$this->db->update('products', $data);
-		$this->db->trans_complete();
-
-		if ($this->db->trans_status() === FALSE) {
-        	return 'product_error';
-		}
-		//Storing in products ends
-
-		
-		//Store infos in informations
+		// Store infos in informations table
 		$array = array('row' => $row, 'col' => $col);
-		$data = array(
+		$info_data = array(
 			'data' => $inp
 		);
+
 		$this->db->trans_start();
+		
+		//products
+		$this->db->where('id', $product_id);
+		$this->db->update('products', $product_data);
+
+		//infos
 		$this->db->where($array);
-		$this->db->update('informations', $data);
+		$this->db->update('informations', $info_data);
+		
 		$this->db->trans_complete();
 
 		if ($this->db->trans_status() === FALSE) {
-        	return 'information_error';
+        	return 'transaction_error';
 		}
-		//storing infos ends
 		
 		echo json_encode($sum);
 	}

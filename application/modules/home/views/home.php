@@ -380,11 +380,8 @@
 				    			"product": product_id
 				    		},
 				    		success: function(result) {
-					        	if(result == 'product_error') {
-					        		alert('Product Error occured');
-					        	}
-					        	else if(result == 'information_error') {
-					        		alert('Information Error Occured');
+					        	if(result == 'transaction_error') {
+					        		alert('Transaction Error occured');
 					        	}
 					        	else {
 					        		$("#r"+row+"c"+write).text(result);

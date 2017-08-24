@@ -197,9 +197,9 @@
 													<!-- Row <?=$r?> white -->
 													<tr>
 														<td class='SO_td1' rowspan='2'>
-															<table border='0' width='100%'>
+															<table border='0' width='100%' class="<?='table_'.$product->id?>">
 																<tr>
-																	<td align='left' nowrap>
+																	<td style="padding: 5px;" align='left' nowrap>
 																		<?=$product->title?>
 																	</td>
 																</tr>
@@ -311,6 +311,115 @@
 		<script type="text/javascript" src="<?=base_url('assets/js/fixed_midashi.js')?>"></script>
 		<!-- Header Scripts ends -->
 
+		<!-- Search -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				
+				/* Change background for searched row */
+				if (typeof(Storage) !== "undefined") {
+					if (localStorage['status']) {
+					    $(".table_"+localStorage['status']).css("background-color", "#c9d6e5");
+					    localStorage['status']=0;
+					}
+				}
+
+				var term = '';
+				var data = '';
+				var count = 0;
+				$('#search_field').on('keyup', function(event) {
+					//if(event.keyCode != 8) {
+						//Show The Result section
+						//$("#live_search").css("visibility", "visible");
+
+						term = $(this).val();
+						if(term != '') {
+						$.ajax({
+				    		url: "<?=base_url('search/search_result')?>",
+				    		cache: false,
+				    		type: "POST",
+				    		data: {
+				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
+				    			"term": term
+				    		},
+				    		success: function(result) {
+					        	if(result != 0) {
+					        		$(".no_match").remove();
+					        		$(".result_row").remove();
+
+					        		//Match Found !
+					        		data = JSON.parse(result);
+
+					        		/* !Important
+					        		* config changed
+					        		*/
+					        		
+					        		/*If you want to use both sorting and live search feature. Use the count== 1 condition below..(Here you're getting only the specific match..(from where not like..))..Take a look you've to paste the full name of the product to find it..*/
+					        		//count = Object.keys(data).length;
+  									//console.log(count);
+
+  									/*The feature is developed for live search.. so the query is written as it is (like operator instead of get_where).This query returns >1 value for similar result and 1 for exact match.. To enable the live search feature uncomment the result section..*/
+  									//if(count == 1) {
+  									//}
+
+					        		/* First matched then grab keypress enter */
+					        		
+					        		if(event.which == 13) {
+        								$.ajax({
+								    		url: "<?=base_url('search/update')?>",
+								    		type: "POST",
+								    		cache: false,
+								    		data: {
+								    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
+								    			"data": data
+								    		},
+								    		success: function(res) {
+								    			//console.log(res);
+								    			if(res != 'negetive') {
+								    				window.top.location=window.top.location;
+								    				localStorage['status']=res;
+								    			}
+								    			else {
+								    				console.log('FIRST_ROW');
+								    			}
+								    		},
+								    		error: function(err) {
+												console.log(err.message);
+										  	}
+								    	});
+    								}
+
+					        		$.each( data, function( key, value ) {
+										$('#suggestionTable > tbody:last-child').append('<tr class="result_row"><td><a href="#">'+ ++key +'</a></td><td><a href="#">'+value.quantity+'</a></td><td><a href="#">'+value.title+'</a></td></tr>');
+									});
+					        	}
+					        	else {
+					        		$(".result_row").remove();
+					        		$(".no_match").remove();
+					        		
+					        		//No Match Found !
+					        		$('#suggestionTable > tbody:last-child').append(
+										'<tr class="no_match"><td colspan="3">No Match Found !</td></tr>'
+									);
+					        	}
+					    	},
+					    	error: function(e) {
+								console.log(e.message);
+						  	}
+					    });
+						}
+
+						else {
+							//Remove Things..
+							$(".result_row").remove();
+							$(".no_match").remove();
+							//On emtying field value
+							$("#live_search").css("visibility", "hidden");
+						}
+					//}
+				});
+			});
+		</script>
+
 		<!-- Calculation -->
 		<script type="text/javascript">
 			
@@ -390,6 +499,7 @@
 				    	$.ajax({
 				    		url: "<?=base_url('index.php/home/update')?>",
 				    		type: "POST",
+				    		cache: false,
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"number": current,
@@ -401,11 +511,8 @@
 				    			"product": product_id
 				    		},
 				    		success: function(result) {
-					        	if(result == 'product_error') {
-					        		alert('Product Error occured');
-					        	}
-					        	else if(result == 'information_error') {
-					        		alert('Information Error Occured');
+					        	if(result == 'transaction_error') {
+					        		alert('Transaction Error occured');
 					        	}
 					        	else {
 					        		$("#r"+row+"c"+write).text(result);
@@ -429,6 +536,7 @@
 				    	$.ajax({
 				    		url: "<?=base_url('index.php/home/update')?>",
 				    		type: "POST",
+				    		cache: false,
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"number": current,
@@ -459,6 +567,7 @@
 				    	$.ajax({
 				    		url: "<?=base_url('index.php/home/update/')?>",
 				    		type: "POST",
+				    		cache: false,
 				    		data: {
 				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
 				    			"number": current,
@@ -485,65 +594,6 @@
 					    });
 				    }
 			    });
-			});
-		</script>
-
-		<!-- Search -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				var term = '';
-				var data = '';
-				$('#search_field').on('keyup', function(event) {
-					//if(event.keyCode != 8) {
-						//Show The Result section
-						$("#live_search").css("visibility", "visible");
-
-						term = $(this).val();
-						if(term != '') {
-						$.ajax({
-				    		url: "<?=base_url('search/search_result')?>",
-				    		cache: false,
-				    		type: "POST",
-				    		data: {
-				    			"<?=$this->security->get_csrf_token_name()?>": "<?=$this->security->get_csrf_hash()?>",
-				    			"term": term
-				    		},
-				    		success: function(result) {
-					        	if(result != 0) {
-					        		$(".no_match").remove();
-					        		$(".result_row").remove();
-					        		
-					        		//Match Found !
-					        		data = JSON.parse(result);
-					        		$.each( data, function( key, value ) {
-										$('#suggestionTable > tbody:last-child').append('<tr class="result_row"><td><a href="#">'+ ++key +'</a></td><td><a href="#">'+value.quantity+'</a></td><td><a href="#">'+value.title+'</a></td></tr>');
-									});
-					        	}
-					        	else {
-					        		$(".result_row").remove();
-					        		$(".no_match").remove();
-					        		
-					        		//No Match Found !
-					        		$('#suggestionTable > tbody:last-child').append(
-										'<tr class="no_match"><td colspan="3">No Match Found !</td></tr>'
-									);
-					        	}
-					    	},
-					    	error: function(e) {
-								console.log(e.message);
-						  	}
-					    });
-						}
-
-						else {
-							//Remove Things..
-							$(".result_row").remove();
-							$(".no_match").remove();
-							//On emtying field value
-							$("#live_search").css("visibility", "hidden");
-						}
-					//}
-				});
 			});
 		</script>
 
