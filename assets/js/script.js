@@ -6,3 +6,263 @@
 * Date Modified : 08.18.2017 (dd.mm.yyyy)
 *
 */
+
+/**
+* Calculation
+* Does the calcultion
+* @param
+* @return
+*/
+$(document).ready(function() {
+	/* Change focus for changed data */
+	$('.SO_input2').on('click', function() {
+	    localStorage['focus'] = '#'+$(this).attr("id");
+	});
+	$('.SO_input2').on('focusin', function() {
+	    $(this).data('val', $(this).val());
+	});
+	$('.SO_input2').on('change', function(event) {
+    	var prev = $(this).data('val');
+	    var current = $(this).val();
+		var changed = $(this).attr("id");
+		var product_id = $(this).attr("data-id");
+		var rest = changed.split("c");
+		var col = rest[1];
+		var temp = rest[0].split("r");
+		var row = temp[1];
+		var write = '';
+		if(col%3 == 0) {
+			write = 'a';
+		}
+		else if(col%3 == 1) {
+			write = 'b';
+		}
+		else {
+			write = 'c';
+		}
+	    if(prev > current) {
+	    	var decreased_difference = prev - current;
+	    	$.ajax({
+	    		url: base_url+"home/update",
+	    		type: "POST",
+	    		cache: false,
+	    		data: {
+	    			csrf_name: csrf_hash,
+	    			"number": current,
+	    			"decreased_difference": decreased_difference,
+	    			"sum": parseInt($("#r"+row+"c"+write).text()),
+	    			"row": row,
+	    			"col": col,
+	    			"write": write,
+	    			"product": product_id
+	    		},
+	    		success: function(result) {
+		        	if(result == 'transaction_error') {
+		        		alert('Transaction Error occured');
+		        	}
+		        	else {
+		        		$("#r"+row+"c"+write).text(result);
+		        		//col++;
+		        		//localStorage['focus'] = "#r"+row+"c"+col;
+		        		window.top.location=window.top.location;
+		        	}
+		    	},
+		    	error: function(e) {
+					console.log(e.message);
+			  	}
+		    });
+	    }
+	    else if(prev < current) {
+	    	var increased_difference = current - prev;
+	    	$.ajax({
+	    		url: base_url+"home/update",
+	    		type: "POST",
+	    		cache: false,
+	    		data: {
+	    			csrf_name: csrf_hash,
+	    			"number": current,
+	    			"increased_difference": increased_difference,
+	    			"sum": parseInt($("#r"+row+"c"+write).text()),
+	    			"row": row,
+	    			"col": col,
+	    			"write": write,
+	    			"product": product_id
+	    		},
+	    		success: function(result) {
+		        	if(result == 'product_error') {
+		        		alert('Product Error occured');
+		        	}
+		        	else if(result == 'information_error') {
+		        		alert('Information Error Occured');
+		        	}
+		        	else {
+		        		$("#r"+row+"c"+write).text(result);
+		        		//col++;
+		        		//localStorage['focus'] = "#r"+row+"c"+col;
+		        		window.top.location=window.top.location;
+		        	}
+		    	},
+		    	error: function(e) {
+					console.log(e.message);
+			  	}
+		    });
+	    }
+	    else {
+	    	$.ajax({
+	    		url: base_url+"home/update",
+	    		type: "POST",
+	    		cache: false,
+	    		data: {
+	    			csrf_name: csrf_hash,
+	    			"number": current,
+	    			"sum": parseInt($("#r"+row+"c"+write).text()),
+	    			"row": row,
+	    			"col": col,
+	    			"write": write,
+	    			"product": product_id
+	    		},
+	    		success: function(result) {
+		        	if(result == 'product_error') {
+		        		alert('Product Error occured');
+		        	}
+		        	else if(result == 'information_error') {
+		        		alert('Information Error Occured');
+		        	}
+		        	else {
+		        		$("#r"+row+"c"+write).text(result);
+		        		//col++;
+		        		//localStorage['focus'] = "#r"+row+"c"+col;
+		        		window.top.location=window.top.location;
+		        	}
+		    	},
+		    	error: function(e) {
+					console.log(e.message);
+			  	}
+		    });
+	    }
+    });
+
+    function setSelectionRange(input, selectionStart, selectionEnd) {
+	  if (input.setSelectionRange) {
+	    input.focus();
+	    input.setSelectionRange(selectionStart, selectionEnd);
+	  } else if (input.createTextRange) {
+	    var range = input.createTextRange();
+	    range.collapse(true);
+	    range.moveEnd('character', selectionEnd);
+	    range.moveStart('character', selectionStart);
+	    range.select();
+	  }
+	}
+
+	function setCaretToPos(input, pos) {
+	  setSelectionRange(input, pos, pos);
+	}
+
+	if (typeof(Storage) !== "undefined") {
+		if (localStorage['focus'] != 0 && localStorage['focus'] !== "undefined") {
+		    setCaretToPos($(localStorage['focus'])[0], $(localStorage['focus']).val().length);
+		    localStorage['focus']= 0;
+		}
+	}
+});
+
+/**
+* Search and Sort
+* Moves the searched row to top
+* @param
+* @return
+*/
+$(document).ready(function() {
+	/* Change background for searched row */
+	if (typeof(Storage) !== "undefined") {
+		if (localStorage['status']) {
+		    $(".table_"+localStorage['status']).css("color", "#4256f4");
+		    localStorage['status']=0;
+		}
+	}
+
+	var term = '';
+	var data = '';
+	var count = 0;
+	$('#search_field').on('keyup', function(event) {
+			term = $(this).val();
+			if(term != '') {
+			$.ajax({
+	    		url: base_url+"search/search_result",
+	    		cache: false,
+	    		type: "POST",
+	    		data: {
+	    			"term": term
+	    		},
+	    		success: function(result) {
+		        	if(result != 0) {
+		        		data = JSON.parse(result);
+		        		if(event.which == 13) {
+		        			$('#loader').css("visibility", "visible");
+							$.ajax({
+					    		url: base_url+"search/update",
+					    		type: "POST",
+					    		cache: false,
+					    		data: {
+					    			"data": data
+					    		},
+					    		success: function(res) {
+					    			if(res) {
+					    				$('#loader').css("visibility", "hidden");
+					    				window.top.location=window.top.location;
+					    				localStorage['status']=res;
+					    				localStorage['focus']='#search_field';
+					    			}
+					    			else {
+					    				$('#loader').css("visibility", "visible");
+					    				$("#snackbar").text('最初の行');
+					    				$('#loader').css("visibility", "hidden");
+					    				myFunction();
+					    				$("#search_field").val('');
+					    				localStorage['focus']='#search_field';
+					    			}
+					    		},
+					    		error: function(err) {
+									console.log(err.message);
+							  	}
+					    	});
+						}
+		        	}
+		        	else if (result == 0 && event.which==13) {
+		        		//No match Found..
+		        		$(this).css("visibility", "visible");
+		        		$("#snackbar").text('一致が見つかりません');
+		        		$(this).css("visibility", "hidden");
+		        		myFunction();
+		        		localStorage['focus']='#search_field';
+		        	}
+		        	else {
+		        		//No Match Found !
+		        		$('#suggestionTable > tbody:last-child').append(
+							'<tr class="no_match"><td colspan="3">No Match Found !</td></tr>'
+						);
+		        	}
+		    	},
+		    	error: function(e) {
+					console.log(e.message);
+			  	}
+		    });
+			}
+
+			else {
+				//Remove Things..
+				$(".result_row").remove();
+				$(".no_match").remove();
+				//On emtying field value
+				$("#live_search").css("visibility", "hidden");
+			}
+		//}
+	});
+});
+
+function myFunction() {
+	var x = document.getElementById("snackbar")
+	x.className = "show";
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}

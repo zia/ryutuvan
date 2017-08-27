@@ -4,7 +4,7 @@
  * Copyright (C) 2012-2015 K.Koiso
  */
 
-/* Exsample */
+/* Example */
 /*******************************************************************
 <script type="text/javascript" src="hoge/fixed_midashi.js"></script>
 

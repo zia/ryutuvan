@@ -63,6 +63,10 @@ class Home extends MY_Controller {
 			//For new value just add with the previous one
 			$sum = $sum + $inp;
 		}
+
+		if($sum < 0) {
+			$sum = 0;
+		}
 		
 		
 		//Store summation in products

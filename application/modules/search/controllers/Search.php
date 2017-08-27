@@ -13,8 +13,6 @@ class Search extends MY_Controller {
 		//Gather datas..
 		$data['headings'] = $this->db->get('headings')->result();
 		$data['subheadings'] = $this->db->get('subheadings')->result();
-		
-		//$data['products'] = $this->db->get('products')->result();
 
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
@@ -30,34 +28,16 @@ class Search extends MY_Controller {
 	 * @return
 	*/
 	public function search_result() {
-
 		$data = array(
 			'title' => $this->input->post('term'),
 			'quantity' => $this->input->post('term')
 		);
-
-		// Without Live Search
-		$query = $this->db->select('*')
+		$query = $this->db->select('id,row')
 					->from('products')
 					->or_where($data)->get();
-
-		// Live search..
-		// $query = $this->db->select('*')
-		// 			->from('products')
-		// 			->or_like($data)->get();
-
-		// Check the query
-		//echo $this->db->last_query();
-		//exit();
 		
 		if($query->num_rows()>0) {
-			// Use with 'WHERE'
-			//echo json_encode($query->first_row());
-			//echo json_encode($query->unbuffered_row());
-			
-			// Use with 'LIKE' or 'WHERE' both
 			echo json_encode($query->result());
-			//echo json_encode($query->result_array());
 		}
 		else {
 			echo 0;
@@ -73,53 +53,67 @@ class Search extends MY_Controller {
 	* @return
 	*/
 	public function update() {
-		//Recieved in array format
+		//$searched_row = 5;
+		//$count = $this->db->count_all('headings')*3;
+
+		//$this->db->select('data');
+		//$this->db->from('products');
+		//$this->db->where('informations.row <= ', $searched_row);
+		//$this->db->join('informations', 'informations.row = products.row');
+
+		//$query = $this->db->get()->result();
+
+		//echo '<pre>';
+		//print_r($query);
+		//echo '</pre>';
+
+		//for ($i=0;$i<count($query);$i++) {
+			//echo $query[$i]->data.'<br>';
+			//for($j=0;$j<$count;$j++) {
+				//echo '&nbsp;&nbsp;&nbsp;'.$query[$j]->data.'<br>';
+			//}
+		//}
+
+		//exit();
+
 		$dummy_data = $this->input->post('data');
-		
-		//I love to work with object..
 		$data = (object) $dummy_data[0];
-
-		/**
-		* Change the row from bottom. for example; searched row
-		* is 7 (which is set to null first), then where row = 5
-		* set it row = 7, where row = 3 set it row = 5 and so on..
-		*/
 		if($data->row > 1) {
-			
-			//Had to remove relation between tables..
-			//Infos need to be updated first..as products
-			//depends on info but info dosen't.
+			$this->db->select('data');
+			$this->db->from('informations');
+			$this->db->where('row', $data->row);
+			$query = $this->db->get();
 
-			$query = $this->db->get_where('informations', array('row' => $data->row));
 			$temp = array();
-			if($query->num_rows() > 0) {
-				foreach ($query->result() as $key) {
-					$temp[] = $key->data;
-				}
+			foreach ($query->result() as $key) {
+				$temp[] = $key->data;
 			}
 
 			for($row=$data->row; $row > 1; $row-=2) {
-				$query = $this->db->get_where('informations', array('row' => $row-2));
-				if($query->num_rows() > 0) {
-					$count = 0;
-					foreach ($query->result() as $key) {
-						$this->db->set('data', $key->data, FALSE);
-						$this->db->where(array('row'=>$row,'col'=> $count++));
-						$this->db->update('informations');
-					}
+				
+				$this->db->select('data');
+				$this->db->from('informations');
+				$this->db->where('row', $row-2);
+				$query = $this->db->get();
+
+				$count = 0;
+				foreach ($query->result() as $key) {
+					
+					$this->db->set('data', $key->data, FALSE);
+					$this->db->where(array('row'=>$row,'col'=> $count++));
+					$this->db->update('informations');
 				}
 			}
 
-			$count = 0;
 			for($i=0;$i<count($temp); $i++) {
 				$this->db->set('data', $temp[$i], FALSE);
-				$this->db->where(array('row'=>$row,'col'=> $count++));
+				$this->db->where(array('row'=>$row,'col'=> $i));
 				$this->db->update('informations');
 			}
 
-			//Set searched row null..(products)
-			$this->db->set('row', 'NULL', FALSE);
-			$this->db->where('id', $data->id);
+			//Set searched row -1..(products)
+			$this->db->set('row', -1, FALSE);
+			$this->db->where('row', $data->row);
 			$this->db->update('products');
 
 			//row alawys odd..
@@ -131,14 +125,14 @@ class Search extends MY_Controller {
 
 			//Set searched row as row 1..
 			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', NULL);
+			$this->db->where('row', -1);
 			$this->db->update('products');
 
-			echo $data->id;
+			echo 1;
 		}
 		else {
 			/* No change required for first row */
-			echo 'negetive';
+			echo 0;
 		}
 	}
 }
