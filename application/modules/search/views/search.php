@@ -54,7 +54,7 @@
 					<table>
 						<tr>
 							<th class="lefty">
-								<h1>受注＆欠品入力画面</h1>
+								<h1>手書入力画面</h1>
 							</th>
 						</tr>
 						<tr>
