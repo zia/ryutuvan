@@ -30,6 +30,21 @@
 	
 	<body onLoad="FixedMidashi.create();">
 		
+
+		<input type="text" name="s_n_s" id="search_field" placeholder="JANまたはインストア入力">
+		<img src="<?=base_url('assets/img/loader.gif')?>" alt="Searching.." id="loader">
+		<div id="live_search">
+			<table id="suggestionTable">
+				<tbody>
+					<tr>
+						<th>SL.</th>
+						<th>Product ID</th>
+						<th>Product Name</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
 		<!-- Mother Table -->
 		<table id="mother_table">
 			<!-- Header table begins -->
@@ -159,22 +174,7 @@
 										<!-- Row 3 : Search and Sort -->
 										<tr id="search_row">
 											<!-- There is Five Fixed header Columns -->
-											<th colspan="5">
-												<input type="text" name="s_n_s" id="search_field" placeholder="JANまたはインストア入力">
-												<img src="<?=base_url('assets/img/loader.gif')?>" alt="Searching.." id="loader">
-												<div id="live_search">
-													<table id="suggestionTable">
-														<tbody>
-															<tr>
-																<th>SL.</th>
-																<th>Product ID</th>
-																<th>Product Name</th>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</th>
-
+											<th colspan="5"></th>
 											<!-- Centering the search field -->
 											<th colspan="22">&nbsp;</th>
 
