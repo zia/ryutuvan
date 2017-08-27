@@ -36,8 +36,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
 * Dynamic
 */
-//$root=(isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['HTTP_HOST'];
-$root = "https://".$_SERVER['HTTP_HOST'];
+$root=(isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['HTTP_HOST'];
+// $root = "https://".$_SERVER['HTTP_HOST'];
 $root.= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $root;
 
@@ -465,7 +465,7 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = TRUE;
+$config['csrf_protection'] = FALSE;
 $config['csrf_token_name'] = 'EciJDgK1SZ';
 $config['csrf_cookie_name'] = 'BizJ4ZAJYH';
 $config['csrf_expire'] = 7200;
