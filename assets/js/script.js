@@ -8,6 +8,17 @@
 */
 
 /**
+* CSRF
+* Includes and regenerates csrf token on each ajax request
+*/
+$(function() {
+    $.ajaxSetup({
+       data: csfrData
+    });
+});
+
+
+/**
 * Calculation
 * Does the calcultion
 * @param
@@ -47,7 +58,6 @@ $(document).ready(function() {
 	    		type: "POST",
 	    		cache: false,
 	    		data: {
-	    			csrf_name: csrf_hash,
 	    			"number": current,
 	    			"decreased_difference": decreased_difference,
 	    			"sum": parseInt($("#r"+row+"c"+write).text()),
@@ -62,8 +72,6 @@ $(document).ready(function() {
 		        	}
 		        	else {
 		        		$("#r"+row+"c"+write).text(result);
-		        		//col++;
-		        		//localStorage['focus'] = "#r"+row+"c"+col;
 		        		window.top.location=window.top.location;
 		        	}
 		    	},
@@ -79,7 +87,6 @@ $(document).ready(function() {
 	    		type: "POST",
 	    		cache: false,
 	    		data: {
-	    			csrf_name: csrf_hash,
 	    			"number": current,
 	    			"increased_difference": increased_difference,
 	    			"sum": parseInt($("#r"+row+"c"+write).text()),
@@ -97,8 +104,6 @@ $(document).ready(function() {
 		        	}
 		        	else {
 		        		$("#r"+row+"c"+write).text(result);
-		        		//col++;
-		        		//localStorage['focus'] = "#r"+row+"c"+col;
 		        		window.top.location=window.top.location;
 		        	}
 		    	},
@@ -113,7 +118,6 @@ $(document).ready(function() {
 	    		type: "POST",
 	    		cache: false,
 	    		data: {
-	    			csrf_name: csrf_hash,
 	    			"number": current,
 	    			"sum": parseInt($("#r"+row+"c"+write).text()),
 	    			"row": row,
@@ -130,8 +134,6 @@ $(document).ready(function() {
 		        	}
 		        	else {
 		        		$("#r"+row+"c"+write).text(result);
-		        		//col++;
-		        		//localStorage['focus'] = "#r"+row+"c"+col;
 		        		window.top.location=window.top.location;
 		        	}
 		    	},
@@ -191,7 +193,7 @@ $(document).ready(function() {
 			$.ajax({
 	    		url: base_url+"search/search_result",
 	    		cache: false,
-	    		type: "POST",
+	    		type: "GET",
 	    		data: {
 	    			"term": term
 	    		},
@@ -202,24 +204,24 @@ $(document).ready(function() {
 		        			$('#loader').css("visibility", "visible");
 							$.ajax({
 					    		url: base_url+"search/update",
-					    		type: "POST",
+					    		type: "GET",
 					    		cache: false,
 					    		data: {
 					    			"data": data
 					    		},
 					    		success: function(res) {
-					    			if(res) {
-					    				$('#loader').css("visibility", "hidden");
-					    				window.top.location=window.top.location;
-					    				localStorage['status']=res;
+					    			if(res !=0) {
+					    				localStorage['status']=1;
 					    				localStorage['focus']='#search_field';
+					    				//window.top.location=window.top.location;
 					    			}
 					    			else {
+					    				//First Row
 					    				$('#loader').css("visibility", "visible");
-					    				$("#snackbar").text('最初の行');
-					    				$('#loader').css("visibility", "hidden");
-					    				myFunction();
 					    				$("#search_field").val('');
+					    				$('#loader').css("visibility", "hidden");
+					    				$("#snackbar").text('最初の行');
+					    				myFunction();
 					    				localStorage['focus']='#search_field';
 					    			}
 					    		},
@@ -227,6 +229,27 @@ $(document).ready(function() {
 									console.log(err.message);
 							  	}
 					    	});
+					    	$.ajax({
+		    					url: base_url+"search/update_info",
+		    					type: "GET",
+		    					cache: false,
+		    					data: {
+		    						"data": data
+		    					},
+		    					success: function(final) {
+		    						if(final !=0) {
+		    							$('#loader').css("visibility", "hidden");
+		    							window.top.location=window.top.location;
+		    						}
+		    						else {
+		    							alert('Not ok');
+		    							window.top.location=window.top.location;
+		    						}
+		    					},
+		    					error: function(err) {
+									console.log(err.message);
+				  				}
+		    				});
 						}
 		        	}
 		        	else if (result == 0 && event.which==13) {

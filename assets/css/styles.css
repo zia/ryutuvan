@@ -4,6 +4,7 @@
 /* Scrollable Table Data */
 div.scroll_div {
 	overflow: auto;
+	scroll-behavior: smooth;
 }
 
 #snackbar {

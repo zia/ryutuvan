@@ -9,19 +9,23 @@ class Home extends MY_Controller {
 	*/
 	public function index()
 	{
+		//Header data
+		//Page Title
+		$header['title'] = '受注＆欠品入力画面';
+
 		$data['headings'] = $this->db->get('headings')->result();
-
 		$data['subheadings'] = $this->db->get('subheadings')->result();
-
-		//$data['products'] = $this->db->get('products')->result();
-
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
 		$data['products'] = $this->db->get()->result();
-
 		$data['infos'] = $this->db->get('informations')->result();
 
+		//Footer data
+		$footer['title'] = '';
+
+		$this->load->view('layouts/header',$header);
 		$this->load->view('home',$data);
+		$this->load->view('layouts/footer',$footer);
 	}
 
 	

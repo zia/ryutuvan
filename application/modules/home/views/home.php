@@ -1,21 +1,4 @@
-<?php
-/**
-* View for Home Page
-* Date : 08.09.2017 (dd.mm.yyyy)
-*/
-defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<meta name=viewport content="width=device-width, initial-scale=1.0">
-<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
-<meta http-equiv=Content-Script-Type content="text/javascript; charset=UTF-8">
-<title>受注＆欠品入力画面</title>
-<link href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css rel=stylesheet integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous>
-<link rel=stylesheet href=<?=base_url('assets/css/webss_so.css')?>>
-<link rel=stylesheet media=screen href=<?=base_url('assets/css/styles.css')?>>
-</head>
+<?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <body onLoad=FixedMidashi.create()>
 <table id=mother_table>
 <tr>
@@ -23,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <table>
 <tr>
 <th class=lefty>
-<h1>受注＆欠品入力画面</h1>
+<h1><?=$title?></h1>
 </th>
 </tr>
 <tr>
@@ -190,10 +173,3 @@ $r++;
 </td>
 </tr>
 </table>
-<script src=<?=base_url('assets/js/jquery.min.js')?>></script>
-<script src=<?=base_url('assets/js/jquery-migrate.js')?>></script>
-<script type=text/javascript src=<?=base_url('assets/js/fixed_midashi.js')?>></script>
-<script type=text/javascript>var base_url="<?=base_url()?>",csrf_name="<?=$this->security->get_csrf_token_name()?>",csrf_hash="<?=$this->security->get_csrf_hash()?>";</script>
-<script type=text/javascript src=<?=base_url('assets/js/script.js')?>></script>
-</body>
-</html>

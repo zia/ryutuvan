@@ -10,16 +10,24 @@ class Search extends MY_Controller {
 	*/
 	public function index()
 	{
-		//Gather datas..
+		//Header data
+		//Page Title
+		$header['title'] = '手書入力画面';
+		
+		//Gather datas for views
 		$data['headings'] = $this->db->get('headings')->result();
 		$data['subheadings'] = $this->db->get('subheadings')->result();
-
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
 		$data['products'] = $this->db->get()->result();
-		
 		$data['infos'] = $this->db->get('informations')->result();
+
+		//Footer data
+		$footer['title'] = '';
+		
+		$this->load->view('layouts/header',$header);
 		$this->load->view('search',$data);
+		$this->load->view('layouts/footer',$footer);
 	}
 
 	/**
@@ -29,10 +37,10 @@ class Search extends MY_Controller {
 	*/
 	public function search_result() {
 		$data = array(
-			'title' => $this->input->post('term'),
-			'quantity' => $this->input->post('term')
+			'title' => $this->input->get('term'),
+			'quantity' => $this->input->get('term')
 		);
-		$query = $this->db->select('id,row')
+		$query = $this->db->select('row')
 					->from('products')
 					->or_where($data)->get();
 		
@@ -53,32 +61,74 @@ class Search extends MY_Controller {
 	* @return
 	*/
 	public function update() {
-		//$searched_row = 5;
-		//$count = $this->db->count_all('headings')*3;
-
-		//$this->db->select('data');
-		//$this->db->from('products');
-		//$this->db->where('informations.row <= ', $searched_row);
-		//$this->db->join('informations', 'informations.row = products.row');
-
-		//$query = $this->db->get()->result();
-
-		//echo '<pre>';
-		//print_r($query);
-		//echo '</pre>';
-
-		//for ($i=0;$i<count($query);$i++) {
-			//echo $query[$i]->data.'<br>';
-			//for($j=0;$j<$count;$j++) {
-				//echo '&nbsp;&nbsp;&nbsp;'.$query[$j]->data.'<br>';
-			//}
-		//}
-
-		//exit();
-
-		$dummy_data = $this->input->post('data');
+		$dummy_data = $this->input->get('data');
 		$data = (object) $dummy_data[0];
+
 		if($data->row > 1) {
+			$this->db->set('row', -1, FALSE);
+			$this->db->where('row', $data->row);
+			$this->db->update('products');
+			for ($row=$data->row; $row > 1; $row-=2) { 
+				$this->db->set('row', $row, FALSE);
+				$this->db->where('row', $row-2);
+				$this->db->update('products');
+			}
+			$this->db->set('row', 1, FALSE);
+			$this->db->where('row', -1);
+			$this->db->update('products');
+			echo $data->row;
+		}
+		else {
+			/* No change required for first row */
+			echo 0;
+		}
+	}
+
+	/**
+	* Update Functionality
+	*
+	* Sorts the info of the products
+	*
+	* @param
+	* @return
+	*/
+	public function update_info() {
+		
+		$this->db->select('data');
+		$this->db->from('informations');
+		$this->db->where('informations.row <= ', 5);
+		$this->db->join('products', 'products.row = informations.row');
+		$query = $this->db->get()->result();
+		$temp = array();
+		$c= $r = 0;
+		foreach ($query as $key => $value) {
+			$temp[$r][$c] = $value->data;
+			$c++;
+			if($c==21){
+				$r++;$c=0;
+			}
+		}
+		$count= 0;
+		for($j=0;$j<3;$j++) {
+			for($k=$count;$k<=$count+20;$k++) {
+				echo $temp[$j][$k].'&nbsp;';
+				if ($temp[$j][$k] == $temp[$j+1][$k]) {
+					echo 'damn..<br>';
+				}
+			}
+			$count=0;
+			echo "<hr>";
+		}
+		//echo '<pre>';
+		//print_r($temp);
+		//echo "</pre>";
+		exit();
+
+		$dummy_data = $this->input->get('data');
+		$data = (object) $dummy_data[0];
+
+		if($data->row > 1) {
+			$ret = 0;
 			$this->db->select('data');
 			$this->db->from('informations');
 			$this->db->where('row', $data->row);
@@ -89,16 +139,13 @@ class Search extends MY_Controller {
 				$temp[] = $key->data;
 			}
 
-			for($row=$data->row; $row > 1; $row-=2) {
-				
+			for($row=$data->row;$row>1;$row-=2) {
 				$this->db->select('data');
 				$this->db->from('informations');
 				$this->db->where('row', $row-2);
 				$query = $this->db->get();
-
 				$count = 0;
 				foreach ($query->result() as $key) {
-					
 					$this->db->set('data', $key->data, FALSE);
 					$this->db->where(array('row'=>$row,'col'=> $count++));
 					$this->db->update('informations');
@@ -111,28 +158,11 @@ class Search extends MY_Controller {
 				$this->db->update('informations');
 			}
 
-			//Set searched row -1..(products)
-			$this->db->set('row', -1, FALSE);
-			$this->db->where('row', $data->row);
-			$this->db->update('products');
-
-			//row alawys odd..
-			for ($row=$data->row; $row > 1; $row-=2) { 
-				$this->db->set('row', $row, FALSE);
-				$this->db->where('row', $row-2);
-				$this->db->update('products');
-			}
-
-			//Set searched row as row 1..
-			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', -1);
-			$this->db->update('products');
-
-			echo 1;
+			$ret = 1;
 		}
 		else {
-			/* No change required for first row */
-			echo 0;
+			$ret = 0;
 		}
+		echo $ret;
 	}
 }
