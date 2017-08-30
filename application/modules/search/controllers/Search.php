@@ -109,10 +109,9 @@ class Search extends MY_Controller {
 			}
 		}
 		$count= 0;
-		for($j=0;$j<3;$j++) {
+		for($j=0;$j<2;$j++) {
 			for($k=$count;$k<=$count+20;$k++) {
-				echo $temp[$j][$k].'&nbsp;';
-				if ($temp[$j][$k] == $temp[$j+1][$k]) {
+				if ($temp[$j][$k] != $temp[$j+1][$k]) {
 					echo 'damn..<br>';
 				}
 			}
