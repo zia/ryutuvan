@@ -172,7 +172,7 @@ foreach ($products as $product) {
 </tr>
 </table>
 </td>
-<td class='SO_td1' nowrap>発注数</td>
+<td class='SO_td1' style="padding-top: 12px;" nowrap>発注数</td>
 
 <!-- Summation Columns : Row 1 starts -->
 <!--
