@@ -230,6 +230,7 @@ $(document).ready(function() {
 				    					//First Row
 				    					$('#loader').css("visibility", "visible");
 				    					$("#search_field").val('');
+				    					$(".SO_input2").removeAttr('disabled');
 				    					$('#loader').css("visibility", "hidden");
 				    					$("#snackbar").text('最初の行');
 				    					myFunction();
@@ -266,6 +267,7 @@ $(document).ready(function() {
 	        			//No match Found..
 	        			$(this).css("visibility", "visible");
 	        			$("#search_field").val('');
+	        			$(".SO_input2").removeAttr('disabled');
 	        			$("#snackbar").text('一致が見つかりません');
 	        			$(this).css("visibility", "hidden");
 	        			myFunction();
