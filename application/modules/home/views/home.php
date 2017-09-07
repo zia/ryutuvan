@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 <body onLoad=FixedMidashi.create()>
 <table id=mother_table>
-	<tr style="">
+	<tr>
 		<td id=primary_heading>
 		<table>
 		<tr>
@@ -49,7 +49,9 @@
 		</div>
 		</td>
 	</tr>
-	<br>
+	<tr>
+		<td style="padding-bottom: 10px;">&nbsp;</td>
+	</tr>
 	<tr>
 		<td colspan=3>
 		<table class=no_border>
@@ -57,7 +59,6 @@
 		<td>
 		<div class=scroll_div>
 		<table align=center cellspacing=1 class=SO_bg _fixedhead="rows:2; cols:5">
-
 		<tr>
 		<th class=SO_title2 rowspan=2 nowrap>商品名</th>
 		<th class=SO_title3 rowspan=2 nowrap></th>
@@ -79,7 +80,7 @@
 		</tr>
 		<tr>
 		<?php $nm = 1; foreach($subheadings as $subheading) { ?>
-		<th class="SO_title5 static_sub_header <?= $nm == 3 ? 'healthy_border' : ''?>" nowrap>
+		<th class="SO_title5 static_sub_header <?= $nm == 3 ? 'healthy_border' : ''?>" id="ssh_<?=$nm?>" nowrap>
 		<?=$subheading->title?>
 		</th>
 		<?php $nm++; } ?>
@@ -155,7 +156,7 @@
 		foreach ($subheadings as $subheading) {
 		?>
 		<td class=SO_td4>
-		<input class=SO_input2 type=text pattern=[0-9].{0,} name=r<?=$r?>c<?=$c?> data-id=<?=$product->id?> value=<?=$infos[$p++]->data?> id=r<?=$r?>c<?=$c++?> maxlength=5 minlength=1>
+		<input class=SO_input2 type=text pattern=[0-9].{0,} name=r<?=$r?>c<?=$c?> data-id=<?=$product->id?> value=<?=$infos[$p++]->data?> id=r<?=$r?>c<?=$c++?> maxlength=8 minlength=1>
 		</td>
 		<?php
 		}

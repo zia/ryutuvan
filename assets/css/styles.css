@@ -114,6 +114,7 @@ input[type=number] {
 #search_row {
 	background: #f4f9ff;
 	height: 60px;
+	border-bottom: 1px solid #000;
 }
 
 #search_row > th {
@@ -135,7 +136,7 @@ input[type=number] {
     position: fixed;
     z-index: 1;
     left: 50%;
-    top: 212px;
+    top: 239px;
 }
 
 #search_field:focus {
@@ -151,7 +152,7 @@ input[type=number] {
 	position: fixed;
 	margin-left: -105px;
 	left: 72%;
-    top: 210px;
+    top: 235px;
     visibility: hidden;
 }
 
@@ -282,10 +283,10 @@ input[type=number] {
 	}
 
 	#search_field {
-		top: 195px;
+		top: 222px;
 	}
 
 	#loader {
-		top: 193px;
+		top: 220px;
 	}
 }

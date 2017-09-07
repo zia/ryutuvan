@@ -94,34 +94,34 @@ class Search extends MY_Controller {
 	*/
 	public function update_info() {
 		
-		$this->db->select('data');
-		$this->db->from('informations');
-		$this->db->where('informations.row <= ', 5);
-		$this->db->join('products', 'products.row = informations.row');
-		$query = $this->db->get()->result();
-		$temp = array();
-		$c= $r = 0;
-		foreach ($query as $key => $value) {
-			$temp[$r][$c] = $value->data;
-			$c++;
-			if($c==21){
-				$r++;$c=0;
-			}
-		}
-		$count= 0;
-		for($j=0;$j<2;$j++) {
-			for($k=$count;$k<=$count+20;$k++) {
-				if ($temp[$j][$k] != $temp[$j+1][$k]) {
-					echo 'damn..<br>';
-				}
-			}
-			$count=0;
-			echo "<hr>";
-		}
-		//echo '<pre>';
-		//print_r($temp);
-		//echo "</pre>";
-		exit();
+		// $this->db->select('data');
+		// $this->db->from('informations');
+		// $this->db->where('informations.row <= ', 5);
+		// $this->db->join('products', 'products.row = informations.row');
+		// $query = $this->db->get()->result();
+		// $temp = array();
+		// $c= $r = 0;
+		// foreach ($query as $key => $value) {
+		// 	$temp[$r][$c] = $value->data;
+		// 	$c++;
+		// 	if($c==21){
+		// 		$r++;$c=0;
+		// 	}
+		// }
+		// $count= 0;
+		// for($j=0;$j<2;$j++) {
+		// 	for($k=$count;$k<=$count+20;$k++) {
+		// 		if ($temp[$j][$k] != $temp[$j+1][$k]) {
+		// 			echo 'damn..<br>';
+		// 		}
+		// 	}
+		// 	$count=0;
+		// 	echo "<hr>";
+		// }
+		// //echo '<pre>';
+		// //print_r($temp);
+		// //echo "</pre>";
+		// exit();
 
 		$dummy_data = $this->input->get('data');
 		$data = (object) $dummy_data[0];

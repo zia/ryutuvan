@@ -1,3 +1,4 @@
+//<![CDATA[
 /**
 * Script.js
 *
@@ -71,8 +72,11 @@ $(document).ready(function() {
 		        		alert('Transaction Error occured');
 		        	}
 		        	else {
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		window.top.location=window.top.location;
+		        		if(old_val.toString().length != result.toString().length) {
+		        			location.reload();
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -103,8 +107,11 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		window.top.location=window.top.location;
+		        		if(old_val.toString().length != result.toString().length) {
+		        			location.reload();
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -133,8 +140,11 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		window.top.location=window.top.location;
+		        		if(old_val.toString().length != result.toString().length) {
+		        			location.reload();
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -188,104 +198,129 @@ $(document).ready(function() {
 	var data = '';
 	var count = 0;
 	$('#search_field').on('keyup', function(event) {
-			term = $(this).val();
-			if(term != '') {
+		term = $(this).val();
+		if(term != '') {
+			$(".SO_input2").attr('disabled','disabled');
 			$.ajax({
-	    		url: base_url+"search/search_result",
-	    		cache: false,
-	    		type: "GET",
-	    		data: {
-	    			"term": term
-	    		},
-	    		success: function(result) {
-		        	if(result != 0) {
-		        		data = JSON.parse(result);
-		        		if(event.which == 13) {
-		        			$('#loader').css("visibility", "visible");
+    			url: base_url+"search/search_result",
+    			cache: false,
+    			type: "GET",
+    			data: {
+    				"term": term
+    			},
+    			success: function(result) {
+	        		if(result != 0) {
+	        			data = JSON.parse(result);
+	        			if(event.which == 13) {
+	        				$('#loader').css("visibility", "visible");
 							$.ajax({
-					    		url: base_url+"search/update",
-					    		type: "GET",
-					    		cache: false,
-					    		data: {
-					    			"data": data
-					    		},
-					    		success: function(res) {
-					    			if(res !=0) {
-					    				localStorage['status']=1;
-					    				localStorage['focus']='#search_field';
-					    				//window.top.location=window.top.location;
-					    			}
-					    			else {
-					    				//First Row
-					    				$('#loader').css("visibility", "visible");
-					    				$("#search_field").val('');
-					    				$('#loader').css("visibility", "hidden");
-					    				$("#snackbar").text('最初の行');
-					    				myFunction();
-					    				localStorage['focus']='#search_field';
-					    			}
-					    		},
-					    		error: function(err) {
+				    			url: base_url+"search/update",
+				    			type: "GET",
+				    			cache: false,
+				    			data: {
+				    				"data": data
+				    			},
+				    			success: function(res) {
+				    				if(res !=0) {
+				    					localStorage['status']=1;
+				    					localStorage['focus']='#search_field';
+				    					//window.top.location=window.top.location;
+				    				}
+				    				else {
+				    					//First Row
+				    					$('#loader').css("visibility", "visible");
+				    					$("#search_field").val('');
+				    					$('#loader').css("visibility", "hidden");
+				    					$("#snackbar").text('最初の行');
+				    					myFunction();
+				    					localStorage['focus']='#search_field';
+				    				}
+				    			},
+				    			error: function(err) {
 									console.log(err.message);
-							  	}
-					    	});
-					    	$.ajax({
-		    					url: base_url+"search/update_info",
-		    					type: "GET",
-		    					cache: false,
-		    					data: {
-		    						"data": data
-		    					},
-		    					success: function(final) {
-		    						if(final !=0) {
-		    							$('#loader').css("visibility", "hidden");
-		    							window.top.location=window.top.location;
-		    						}
-		    						else {
-		    							alert('Not ok');
-		    							window.top.location=window.top.location;
-		    						}
-		    					},
-		    					error: function(err) {
+						  		}
+				    		});
+				    		$.ajax({
+	    						url: base_url+"search/update_info",
+	    						type: "GET",
+	    						cache: false,
+	    						data: {
+	    							"data": data
+	    						},
+	    						success: function(final) {
+	    							if(final !=0) {
+	    								$('#loader').css("visibility", "hidden");
+	    								window.top.location=window.top.location;
+	    							}
+	    							else {
+	    								//window.top.location=window.top.location;
+	    							}
+	    						},
+	    						error: function(err) {
 									console.log(err.message);
-				  				}
-		    				});
+			  					}
+	    					});
 						}
-		        	}
-		        	else if (result == 0 && event.which==13) {
-		        		//No match Found..
-		        		$(this).css("visibility", "visible");
-		        		$("#snackbar").text('一致が見つかりません');
-		        		$(this).css("visibility", "hidden");
-		        		myFunction();
-		        		localStorage['focus']='#search_field';
-		        	}
-		        	else {
-		        		//No Match Found !
-		        		$('#suggestionTable > tbody:last-child').append(
-							'<tr class="no_match"><td colspan="3">No Match Found !</td></tr>'
-						);
-		        	}
-		    	},
-		    	error: function(e) {
+	        		}
+	        		else if (result == 0 && event.which==13) {
+	        			//No match Found..
+	        			$(this).css("visibility", "visible");
+	        			$("#search_field").val('');
+	        			$("#snackbar").text('一致が見つかりません');
+	        			$(this).css("visibility", "hidden");
+	        			myFunction();
+	        			localStorage['focus']='#search_field';
+	        		}
+	        		else {
+	        		}
+	    		},
+	    		error: function(e) {
 					console.log(e.message);
-			  	}
-		    });
-			}
-
-			else {
-				//Remove Things..
-				$(".result_row").remove();
-				$(".no_match").remove();
-				//On emtying field value
-				$("#live_search").css("visibility", "hidden");
-			}
-		//}
+		  		}
+	    	});
+		}
+		else {
+			$(".SO_input2").removeAttr('disabled');
+		}
 	});
 });
+
+/**
+* Snackbar
+*/
 
 function myFunction() {
 	var x = document.getElementById("snackbar")
 	x.className = "show";
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
+
+/**
+* Prevent Scrolling from Reaching Top
+*/
+$(document).ready(function() {
+	var eTop = 1;
+	$('.scroll_div').scrollTop(eTop);
+	$('.scroll_div').on("scroll", function(e) {
+		var windowScrollTop = $(this).scrollTop();
+		if(windowScrollTop < eTop) {
+			$(this).scrollTop(eTop);
+		}
+	});
+});
+
+/**
+* Sliding
+*/
+$(document).ready(function() {
+	var scrollSpace = 0;
+	$("#next-column").click(function(){
+		console.log('Next Clicked');
+    	$("#mother_table").scrollLeft(scrollSpace+=250);
+	});
+	$("#previous-column").click(function(){
+		console.log('Previous Clicked');
+    	$("#mother_table").scrollLeft(scrollSpace-=250);
+	});
+});
+//]]>
