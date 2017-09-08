@@ -240,7 +240,7 @@
 		pattern="[0-9].{0,}"
 		name="r<?=$r?>c<?=$c?>"
 		data-id="<?=$product->id?>"
-		title="<?=$infos[$p]->data > 9999 ? $infos[$p]->data:'&nbsp;'?>"
+		<?=$infos[$p]->data>10000 ? 'title="'.$infos[$p]->data.'"' : ''?>
 		value="<?=$infos[$p++]->data?>"
 		id="r<?=$r?>c<?=$c++?>"
 		maxlength="8"

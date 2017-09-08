@@ -34,7 +34,6 @@ $(document).ready(function() {
 	    $(this).data('val', $(this).val());
 	});
 	$('.SO_input2').on('change', function(event) {
-		$(".SO_input2").attr('disabled','disabled');
     	var prev = $(this).data('val');
 	    var current = $(this).val();
 		var changed = $(this).attr("id");
@@ -162,7 +161,6 @@ $(document).ready(function() {
 			  	}
 		    });
 	    }
-	    $(".SO_input2").removeAttr('disabled');
     });
 
     function setSelectionRange(input, selectionStart, selectionEnd) {
