@@ -233,7 +233,6 @@ $(document).ready(function() {
 				    				if(res !=0) {
 				    					localStorage['status']=1;
 				    					localStorage['focus']='#search_field';
-				    					//window.top.location=window.top.location;
 				    				}
 				    				else {
 				    					//First Row
