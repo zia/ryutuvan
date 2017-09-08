@@ -34,6 +34,7 @@ $(document).ready(function() {
 	    $(this).data('val', $(this).val());
 	});
 	$('.SO_input2').on('change', function(event) {
+		$(".SO_input2").attr('disabled','disabled');
     	var prev = $(this).data('val');
 	    var current = $(this).val();
 		var changed = $(this).attr("id");
@@ -57,7 +58,7 @@ $(document).ready(function() {
 	    	$.ajax({
 	    		url: base_url+"home/update",
 	    		type: "POST",
-	    		cache: false,
+	    		cache: true,
 	    		data: {
 	    			"number": current,
 	    			"decreased_difference": decreased_difference,
@@ -92,7 +93,7 @@ $(document).ready(function() {
 	    	$.ajax({
 	    		url: base_url+"home/update",
 	    		type: "POST",
-	    		cache: false,
+	    		cache: true,
 	    		data: {
 	    			"number": current,
 	    			"increased_difference": increased_difference,
@@ -129,7 +130,7 @@ $(document).ready(function() {
 	    	$.ajax({
 	    		url: base_url+"home/update",
 	    		type: "POST",
-	    		cache: false,
+	    		cache: true,
 	    		data: {
 	    			"number": current,
 	    			"sum": parseInt($("#r"+row+"c"+write).text()),
@@ -161,6 +162,7 @@ $(document).ready(function() {
 			  	}
 		    });
 	    }
+	    $(".SO_input2").removeAttr('disabled');
     });
 
     function setSelectionRange(input, selectionStart, selectionEnd) {
@@ -212,7 +214,7 @@ $(document).ready(function() {
 			$(".SO_input2").attr('disabled','disabled');
 			$.ajax({
     			url: base_url+"search/search_result",
-    			cache: false,
+    			cache: true,
     			type: "GET",
     			data: {
     				"term": term
@@ -225,7 +227,7 @@ $(document).ready(function() {
 							$.ajax({
 				    			url: base_url+"search/update",
 				    			type: "GET",
-				    			cache: false,
+				    			cache: true,
 				    			data: {
 				    				"data": data
 				    			},
@@ -253,14 +255,14 @@ $(document).ready(function() {
 				    		$.ajax({
 	    						url: base_url+"search/update_info",
 	    						type: "GET",
-	    						cache: false,
+	    						cache: true,
 	    						data: {
 	    							"data": data
 	    						},
 	    						success: function(final) {
 	    							if(final !=0) {
 	    								$('#loader').css("visibility", "hidden");
-	    								window.top.location=window.top.location;
+	    								location.reload();
 	    							}
 	    							else {
 	    								//window.top.location=window.top.location;
@@ -322,6 +324,8 @@ $(document).ready(function() {
 
 /**
 * Sliding
+* Unfortunately next-column is done manually.
+* Need to check it later.
 */
 $(document).ready(function() {
 	var scrollSpace = 0;
