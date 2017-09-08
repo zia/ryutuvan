@@ -74,7 +74,10 @@ $(document).ready(function() {
 		        	else {
 		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		if(old_val.toString().length != result.toString().length) {
+		        		if(old_val < 1000 && result < 1000) {
+		        			//Do nothing
+		        		}
+		        		else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
 		        		}
 		        	}
@@ -322,13 +325,33 @@ $(document).ready(function() {
 */
 $(document).ready(function() {
 	var scrollSpace = 0;
-	$("#next-column").click(function(){
-		console.log('Next Clicked');
-    	$("#mother_table").scrollLeft(scrollSpace+=250);
+	$(".scroll_div").scroll(function() {
+		scrollSpace = $(".scroll_div").scrollLeft();
 	});
-	$("#previous-column").click(function(){
-		console.log('Previous Clicked');
-    	$("#mother_table").scrollLeft(scrollSpace-=250);
+
+	$("#next-column").click(function() {
+		if(scrollSpace < 215) {
+			// $(".scroll_div").scrollLeft(scrollSpace+=43);
+
+			$(".scroll_div").animate({scrollLeft: '+=43'},300);
+			scrollSpace+=43;
+		}
+		else {
+			scrollSpace = 215;
+		}
+		console.log(scrollSpace);
+	});
+	$("#previous-column").click(function() {
+		if(scrollSpace > 0) {
+			// $(".scroll_div").scrollLeft(scrollSpace-=43);
+
+			$(".scroll_div").animate({scrollLeft: '-=43'},300);
+			scrollSpace-=43;
+		}
+		else {
+			scrollSpace = 0;
+		}
+		console.log(scrollSpace);
 	});
 });
 //]]>
