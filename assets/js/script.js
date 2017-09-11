@@ -72,14 +72,14 @@ $(document).ready(function() {
 		        		alert('Transaction Error occured');
 		        	}
 		        	else {
-		        		var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		if(old_val < 1000 && result < 1000) {
+		        		//if(old_val < 1000 && result < 1000) {
 		        			//Do nothing
-		        		}
-		        		else if(old_val.toString().length != result.toString().length) {
+		        		//}
+		        		//else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		}
+		        		//}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -110,14 +110,14 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
-		        		var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
+		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
 		        			//Do Nothing
-		        		}
-		        		else if(old_val.toString().length != result.toString().length) {
+		        		//}
+		        		//else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		}
+		        		//}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -146,14 +146,14 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
-		        		var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
+		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
 		        			//Do Nothing
-		        		}
-		        		else if(old_val.toString().length != result.toString().length) {
+		        		//}
+		        		//else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		}
+		        		//}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -325,34 +325,39 @@ $(document).ready(function() {
 * Need to check it later.
 */
 $(document).ready(function() {
-	var scrollSpace = 0;
-	$(".scroll_div").scroll(function() {
-		scrollSpace = $(".scroll_div").scrollLeft();
+	var count = 0;
+	$("#previous-column").mousedown(function() {
+		timeout = setInterval(function() {
+			if(count > 0)
+        		count -=43;
+        	else
+        		count = 0;
+        	movePlayer(count);
+    	}, 50);
+    	return false;
 	});
 
-	$("#next-column").click(function() {
-		if(scrollSpace < 215) {
-			// $(".scroll_div").scrollLeft(scrollSpace+=43);
-
-			$(".scroll_div").animate({scrollLeft: '+=43'},300);
-			scrollSpace+=43;
-		}
-		else {
-			scrollSpace = 215;
-		}
-		console.log(scrollSpace);
+	$("#next-column").mousedown(function() {
+		timeout = setInterval(function() {
+        	if(count < 215)
+        		count +=43;
+        	else
+        		count = 215;
+        	movePlayer(count);
+    	}, 50);
+    	return false;
 	});
-	$("#previous-column").click(function() {
-		if(scrollSpace > 0) {
-			// $(".scroll_div").scrollLeft(scrollSpace-=43);
 
-			$(".scroll_div").animate({scrollLeft: '-=43'},300);
-			scrollSpace-=43;
-		}
-		else {
-			scrollSpace = 0;
-		}
-		console.log(scrollSpace);
+	$("#previous-column, #next-column").mouseup(function() {
+			clearInterval(timeout);
+    		return false;
 	});
+
+	function movePlayer(intMovement) {
+		console.log(intMovement);
+		$(".scroll_div").animate({
+			'scrollLeft': intMovement
+		},50);
+	}
 });
 //]]>
