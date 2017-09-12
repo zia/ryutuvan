@@ -262,7 +262,7 @@ $(document).ready(function() {
 	    								location.reload();
 	    							}
 	    							else {
-	    								//window.top.location=window.top.location;
+	    								// window.top.location=window.top.location;
 	    							}
 	    						},
 	    						error: function(err) {
