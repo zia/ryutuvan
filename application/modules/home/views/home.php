@@ -70,7 +70,7 @@
 		$j=0;
 		foreach ($headings as $heading) {
 		?>
-		<th class=SO_title3 colspan=3>
+		<th class="SO_title3 dynamic_header" colspan=3>
 		<?=$heading->title?>
 		</th>
 		<?php		

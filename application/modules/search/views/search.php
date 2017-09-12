@@ -99,7 +99,7 @@
 		foreach ($headings as $heading) {
 		?>
 		<!-- Dynamic column header name and number here -->
-		<th class="SO_title3" colspan="3">
+		<th class="SO_title3 dynamic_header" colspan="3">
 		<?=$heading->title?>
 		</th>
 		<?php		
@@ -137,7 +137,7 @@
 		<!-- There is Five Fixed header Columns -->
 		<th colspan="5"></th>
 		<!-- Centering the search field -->
-		<th colspan="22">&nbsp;</th>
+		<th colspan="<?=count($headings) * 3 + 1?>">&nbsp;</th>
 
 		<!-- Search Field -->
 		<!--<th colspan="9">

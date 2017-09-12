@@ -298,7 +298,6 @@ $(document).ready(function() {
 /**
 * Snackbar
 */
-
 function myFunction() {
 	var x = document.getElementById("snackbar")
 	x.className = "show";
@@ -306,15 +305,20 @@ function myFunction() {
 }
 
 /**
-* Prevent Scrolling from Reaching Top
+* Prevent Scrolling from Reaching Top and Left
 */
 $(document).ready(function() {
-	var eTop = 1;
+	var eTop = eLeft = 1;
 	$('.scroll_div').scrollTop(eTop);
+	$('.scroll_div').scrollLeft(eLeft);
 	$('.scroll_div').on("scroll", function(e) {
 		var windowScrollTop = $(this).scrollTop();
+		var windowScrollLeft = $(this).scrollLeft();
 		if(windowScrollTop < eTop) {
 			$(this).scrollTop(eTop);
+		}
+		if(windowScrollLeft < eLeft) {
+			$(this).scrollLeft(eLeft);
 		}
 	});
 });
@@ -325,13 +329,20 @@ $(document).ready(function() {
 * Need to check it later.
 */
 $(document).ready(function() {
-	var count = 0;
+	var inc = [];
+	var i = 0;
+	$('.dynamic_header').each(function(index) {
+    	inc[i] = parseInt($(this).outerWidth(),0);
+    	i++;
+	});
+	i = 0;
+	var count = 1;
 	$("#previous-column").mousedown(function() {
 		timeout = setInterval(function() {
-			if(count > 0)
-        		count -=43;
+			if(count > 1)
+        		count -=inc[--i];
         	else
-        		count = 0;
+        		count = 1;
         	movePlayer(count);
     	}, 50);
     	return false;
@@ -339,10 +350,10 @@ $(document).ready(function() {
 
 	$("#next-column").mousedown(function() {
 		timeout = setInterval(function() {
-        	if(count < 215)
-        		count +=43;
+        	if(count < 482)
+        		count +=inc[++i];
         	else
-        		count = 215;
+        		count = 482;
         	movePlayer(count);
     	}, 50);
     	return false;
@@ -354,10 +365,13 @@ $(document).ready(function() {
 	});
 
 	function movePlayer(intMovement) {
-		console.log(intMovement);
+		console.log('Before :'+$(".scroll_div").scrollLeft());
+
 		$(".scroll_div").animate({
 			'scrollLeft': intMovement
 		},50);
+
+		console.log('After :'+$(".scroll_div").scrollLeft());
 	}
 });
 //]]>
