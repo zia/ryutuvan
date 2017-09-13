@@ -58,7 +58,7 @@
 		<table class=no_border>
 		<tr>
 		<td>
-			<table align=center cellspacing=1 class=SO_bg _fixedhead="rows:0; cols:5">
+			<table align=center class="inner_table" cellspacing=1 class=SO_bg _fixedhead="rows:0; cols:5">
 			<tr>
 			<th class=SO_title2 rowspan=2 nowrap>商品名</th>
 			<th class=SO_title3 rowspan=2 nowrap></th>

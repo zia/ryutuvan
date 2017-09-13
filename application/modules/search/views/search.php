@@ -79,7 +79,7 @@
 		<!-- If kbd navigation is required, should be applied on this table -->
 		<!-- Calculation -->
 		<?=form_open('search/search_result')?>
-			<table align="center" cellspacing="1" class="SO_bg" _fixedhead="rows:0; cols:5">
+			<table align="center" class="inner_table" cellspacing="1" class="SO_bg" _fixedhead="rows:0; cols:5">
 			<!--Data Table Header Starts -->
 			<!-- Row 1 : Main Headers -->
 			<tr>

@@ -389,13 +389,13 @@ $(document).ready(function() {
 	});
 
 	function movePlayer(intMovement) {
-		console.log('Before :'+$(".scroll_div").scrollLeft());
+		// console.log('Before :'+$(".inner_table").scrollLeft());
 
-		$(".scroll_div").animate({
+		$(".inner_table").animate({
 			'scrollLeft': intMovement
 		},50);
 
-		console.log('After :'+$(".scroll_div").scrollLeft());
+		console.log('After :'+$(".inner_table").scrollLeft());
 	}
 });
 //]]>
