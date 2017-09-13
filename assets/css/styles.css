@@ -1,6 +1,12 @@
 
 /* ---- Custom CSS ------ */
 
+/*body { -ms-overflow-style: none; }
+
+::-webkit-scrollbar { 
+    display: none;
+}*/
+
 /* Scrollable Table Data */
 div.scroll_div {
 	overflow: auto;

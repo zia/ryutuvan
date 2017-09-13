@@ -69,6 +69,7 @@ class Home extends MY_Controller {
 		}
 
 		if($sum < 0) {
+			// Remove this if negetive value required.
 			$sum = 0;
 		}
 		

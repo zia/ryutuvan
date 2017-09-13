@@ -30,9 +30,11 @@ $(document).ready(function() {
 	$('.SO_input2').on('click', function() {
 	    localStorage['focus'] = '#'+$(this).attr("id");
 	});
+
 	$('.SO_input2').on('focusin', function() {
 	    $(this).data('val', $(this).val());
 	});
+
 	$('.SO_input2').on('change', function(event) {
     	var prev = $(this).data('val');
 	    var current = $(this).val();
@@ -252,13 +254,35 @@ $(document).ready(function() {
 				    		$.ajax({
 	    						url: base_url+"search/update_info",
 	    						type: "GET",
-	    						cache: true,
+	    						cache: false,
 	    						data: {
 	    							"data": data
 	    						},
 	    						success: function(final) {
-	    							if(final !=0) {
+	    							if(final) {
+	    								var i,j;
+	    								var count = 0;
+	    								var result = JSON.parse(final);
+	    								var res_per_row = result.length/Math.ceil(data[0].row/2);
+
+	    								// console.log(result[27].data);
+
+	    								if(data[0].row > 1) {
+	    									//use <=
+		    								for(i=0;i<data[0].row;i++) {
+		    									if(i%2) {
+													for(j=0;j<res_per_row;j++) {
+														if(result[count].data != result[count+res_per_row].data) {
+															console.log(result[count].data);
+														}
+														count++;
+		    										}
+		    									}
+		    								}
+	    								}
+
 	    								$('#loader').css("visibility", "hidden");
+	    								// setTimeout(function(){ location.reload(); }, 3000);
 	    								location.reload();
 	    							}
 	    							else {

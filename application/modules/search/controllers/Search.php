@@ -93,11 +93,17 @@ class Search extends MY_Controller {
 	* @return
 	*/
 	public function update_info() {
-		// $this->db->select('data');
-		// $this->db->from('informations');
-		// $this->db->where('informations.row <= ', 5);
-		// $this->db->join('products', 'products.row = informations.row');
-		// $query = $this->db->get()->result();
+		$dummy_data = $this->input->get('data');
+		$data = (object) $dummy_data[0];
+
+		$this->db->select('data');
+		$this->db->from('informations');
+		$this->db->where('informations.row <= ', $data->row);
+		$this->db->join('products', 'products.row = informations.row');
+		$query = $this->db->get()->result();
+
+		echo json_encode($query);
+
 		// $temp = array();
 		// $c= $r = 0;
 		// foreach ($query as $key => $value) {
@@ -127,8 +133,8 @@ class Search extends MY_Controller {
 		// //echo "</pre>";
 		// exit();
 
-		$dummy_data = $this->input->get('data');
-		$data = (object) $dummy_data[0];
+		// $dummy_data = $this->input->get('data');
+		// $data = (object) $dummy_data[0];
 
 		// if($data->row > 1) {
 		// 	$ret = 0;
@@ -168,25 +174,25 @@ class Search extends MY_Controller {
 		// }
 		// echo $ret;
 
-		if($data->row > 1) {
-			$this->db->set('row', -1, FALSE);
-			$this->db->where('row', $data->row);
-			$this->db->update('informations');
+		// if($data->row > 1) {
+		// 	$this->db->set('row', -1, FALSE);
+		// 	$this->db->where('row', $data->row);
+		// 	$this->db->update('informations');
 
-			for ($row=$data->row; $row > 1; $row-=2) { 
-				$this->db->set('row', $row, FALSE);
-				$this->db->where('row', $row-2);
-				$this->db->update('informations');
-			}
-			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', -1);
-			$this->db->update('informations');
-			echo 1;
-		}
-		else {
-			/* No change required for first row */
-			echo 0;
-		}
+		// 	for ($row=$data->row; $row > 1; $row-=2) { 
+		// 		$this->db->set('row', $row, FALSE);
+		// 		$this->db->where('row', $row-2);
+		// 		$this->db->update('informations');
+		// 	}
+		// 	$this->db->set('row', 1, FALSE);
+		// 	$this->db->where('row', -1);
+		// 	$this->db->update('informations');
+		// 	echo 1;
+		// }
+		// else {
+		// 	/* No change required for first row */
+		// 	echo 0;
+		// }
 
 	}
 }
