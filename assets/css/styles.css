@@ -1,11 +1,11 @@
 
 /* ---- Custom CSS ------ */
 
-/*body { -ms-overflow-style: none; }
+body { -ms-overflow-style: none; }
 
 ::-webkit-scrollbar { 
     display: none;
-}*/
+}
 
 /* Scrollable Table Data */
 div.scroll_div {
@@ -109,8 +109,9 @@ input[type=number] {
 }
 
 #button_column {
-	text-align:right;
-	vertical-align: bottom;
+	text-align:left;
+	vertical-align: middle;
+	padding-left: 450px;
 }
 
 .static_sub_header {
@@ -139,10 +140,10 @@ input[type=number] {
     padding: 12px 20px 12px 40px;
     min-width: 350px;
     margin-left: -105px;
-    position: fixed;
+    position: relative;
     z-index: 1;
     left: 50%;
-    top: 239px;
+    top: 275px;
 }
 
 #search_field:focus {
@@ -158,7 +159,7 @@ input[type=number] {
 	position: fixed;
 	margin-left: -105px;
 	left: 72%;
-    top: 235px;
+    top: 271px;
     visibility: hidden;
 }
 
@@ -289,10 +290,10 @@ input[type=number] {
 	}
 
 	#search_field {
-		top: 222px;
+		top: 258px;
 	}
 
 	#loader {
-		top: 220px;
+		top: 256px;
 	}
 }
