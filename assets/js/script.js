@@ -275,8 +275,11 @@ $(document).ready(function() {
 														if(result[count].data != result[count+res_per_row].data) {
 															
 															temp = $('#r'+i+'c'+j).val();
+															temp1 = $('#r'+(i+2)+'c'+j).val();
 
-															console.log("i = "+i+" j = "+j+" data = "+temp);
+															console.log("i = "+(i)+" j = "+j+" temp = "+temp);
+															console.log("i+2 = "+(i+2)+" j = "+j+" temp1 = "+temp1);
+
 															//console.log("i = "+i+" j = "+j+" data = "+result[count].data);
 															//console.log("count+res_per_row = "+(count+res_per_row)+" j = "+j+" data = "+result[count+res_per_row].data);
 														}
@@ -288,7 +291,7 @@ $(document).ready(function() {
 
 	    								$('#loader').css("visibility", "hidden");
 	    								// setTimeout(function(){ location.reload(); }, 3000);
-	    								location.reload();
+	    								// location.reload();
 	    							}
 	    							else {
 	    								// window.top.location=window.top.location;
@@ -401,7 +404,7 @@ $(document).ready(function() {
 			'scrollLeft': intMovement
 		},50);
 
-		console.log('After :'+$(".scroll_div").scrollLeft());
+		// console.log('After :'+$(".scroll_div").scrollLeft());
 	}
 });
 
