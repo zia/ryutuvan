@@ -5,6 +5,8 @@
 	*/
 	defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+		</div>
+		<a href="#" class="btn btn-success go-top">ページの先頭へ</a>
 		<div id="snackbar"></div>
 		<!-- Configuration -->
 		<script type="text/javascript">

@@ -260,7 +260,7 @@ $(document).ready(function() {
 	    						},
 	    						success: function(final) {
 	    							if(final) {
-	    								var i,j;
+	    								var i,j,temp;
 	    								var count = 0;
 	    								var result = JSON.parse(final);
 	    								var res_per_row = result.length/Math.ceil(data[0].row/2);
@@ -273,7 +273,12 @@ $(document).ready(function() {
 		    									if(i%2) {
 													for(j=0;j<res_per_row;j++) {
 														if(result[count].data != result[count+res_per_row].data) {
-															console.log(result[count].data);
+															
+															temp = $('#r'+i+'c'+j).val();
+
+															console.log("i = "+i+" j = "+j+" data = "+temp);
+															//console.log("i = "+i+" j = "+j+" data = "+result[count].data);
+															//console.log("count+res_per_row = "+(count+res_per_row)+" j = "+j+" data = "+result[count+res_per_row].data);
 														}
 														count++;
 		    										}
@@ -332,6 +337,7 @@ function myFunction() {
 * Prevent Scrolling from Reaching Top and Left
 */
 $(document).ready(function() {
+	/*
 	var eTop = eLeft = 1;
 	$('.scroll_div').scrollTop(eTop);
 	$('.scroll_div').scrollLeft(eLeft);
@@ -344,7 +350,7 @@ $(document).ready(function() {
 		if(windowScrollLeft < eLeft) {
 			$(this).scrollLeft(eLeft);
 		}
-	});
+	});*/
 });
 
 /**
@@ -389,13 +395,50 @@ $(document).ready(function() {
 	});
 
 	function movePlayer(intMovement) {
-		// console.log('Before :'+$(".inner_table").scrollLeft());
+		// console.log('Before :'+$(".scroll_div").scrollLeft());
 
-		$(".inner_table").animate({
+		$(".scroll_div").animate({
 			'scrollLeft': intMovement
 		},50);
 
-		console.log('After :'+$(".inner_table").scrollLeft());
+		console.log('After :'+$(".scroll_div").scrollLeft());
 	}
 });
+
+/**
+* Hide Top Section
+*/
+$(window).bind('mousewheel', function(event) {
+    // if (event.originalEvent.wheelDelta >= 0) {
+    //    $('#topheaderbar').show(500);
+    //    $('.go-top').fadeOut(200);
+    // }
+    // else {
+    //    $('#topheaderbar').hide(500);
+    // }
+});
+
+/**
+* Go to Top and Hide Top Section subsequently
+*/
+$(document).ready(function() {
+	// Show or hide the sticky footer button
+	$('.scroll_div').scroll(function() {
+		if ($(this).scrollTop() > 100) {
+			$('.go-top').fadeIn(500);
+			$('#topheaderbar').hide(500);
+		} else {
+			$('.go-top').fadeOut(500);
+			$('#topheaderbar').show(500);
+		}
+	});
+	
+	// Animate the scroll to top
+	$('.go-top').click(function(event) {
+		event.preventDefault();
+		$('.scroll_div').animate({scrollTop: 0}, 500);
+		//$('#topheaderbar').show(500);
+	})
+});
+
 //]]>
