@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-4 top20">
-				<div class="row">
+				<div class="row" style="text-align: right;">
 					<div class="col-xs-12">
 						<a class="btn btn-default" href>登録</a>
 						<a class="btn btn-primary" href>終了</a>
@@ -64,8 +64,8 @@
 						<a class="btn btn-danger" href class=btn>機能</a>
 					</div>
 					<div class="col-xs-12 top10">
-						<button class="btn btn-info" id=next-column>右へ移動</button>
 						<button class="btn btn-warning" id=previous-column>左へ移動</button>
+						<button class="btn btn-info" id=next-column>右へ移動</button>
 					</div>
 				</div>
 			</div>
