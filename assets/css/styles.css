@@ -153,12 +153,13 @@ div.scroll_div {
 /* GoTo TOP */
 .go-top {
     position: fixed;
-    bottom: 2em;
-    right: 2em;
+    top: 50%;
+    left: 93%;
     text-decoration: none;
     font-weight: 600;
     padding: 1em;
     display: none;
+    // border-radius: 25px;
 }
 
 /* ----- Internet Explorer specifi rules ----- */

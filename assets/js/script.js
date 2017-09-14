@@ -427,19 +427,19 @@ $(window).bind('mousewheel', function(event) {
 $(document).ready(function() {
 	// Show or hide the sticky footer button
 	$('.scroll_div').scroll(function() {
-		if ($(this).scrollTop() > 100) {
-			$('.go-top').fadeIn(500);
-			$('#topheaderbar').hide(500);
+		if ($(this).scrollTop() > 0) {
+			$('.go-top').fadeIn(200);
+			$('#topheaderbar').slideUp(200);
 		} else {
-			$('.go-top').fadeOut(500);
-			$('#topheaderbar').show(500);
+			$('#topheaderbar').slideDown(350);
+			$('.go-top').fadeOut(200);
 		}
 	});
 	
 	// Animate the scroll to top
 	$('.go-top').click(function(event) {
 		event.preventDefault();
-		$('.scroll_div').animate({scrollTop: 0}, 500);
+		$('.scroll_div').animate({scrollTop: 0}, 350);
 		//$('#topheaderbar').show(500);
 	})
 });
