@@ -15,10 +15,15 @@ class Home extends MY_Controller {
 
 		$data['headings'] = $this->db->get('headings')->result();
 		$data['subheadings'] = $this->db->get('subheadings')->result();
+		
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
 		$data['products'] = $this->db->get()->result();
-		$data['infos'] = $this->db->get('informations')->result();
+
+		$this->db->from('informations');
+		$this->db->order_by("row", "asc");
+		$this->db->order_by("col", "asc");
+		$data['infos'] = $this->db->get()->result();
 
 		//Footer data
 		$footer['title'] = '';

@@ -226,29 +226,18 @@ $(document).ready(function() {
     			success: function(result) {
 	        		if(result != 0) {
 	        			data = JSON.parse(result);
-	        			if(event.which == 13) {
+	        			if(event.which == 13 && data[0].row > 1) {
 	        				$('#loader').css("visibility", "visible");
 							$.ajax({
-				    			url: base_url+"search/update",
-				    			type: "GET",
+				    			url: base_url+"search/update/"+data[0].row,
 				    			cache: true,
-				    			data: {
-				    				"data": data
-				    			},
 				    			success: function(res) {
 				    				if(res !=0) {
 				    					localStorage['status']=1;
 				    					localStorage['focus']='#search_field';
 				    				}
 				    				else {
-				    					//First Row
-				    					$('#loader').css("visibility", "visible");
-				    					$("#search_field").val('');
-				    					$(".SO_input2").removeAttr('disabled');
-				    					$('#loader').css("visibility", "hidden");
-				    					$("#snackbar").text('最初の行');
-				    					myFunction();
-				    					localStorage['focus']='#search_field';
+				    					console.log(res.message);
 				    				}
 				    			},
 				    			error: function(err) {
@@ -256,49 +245,15 @@ $(document).ready(function() {
 						  		}
 				    		});
 				    		$.ajax({
-	    						url: base_url+"search/update_info",
-	    						type: "GET",
-	    						cache: false,
-	    						data: {
-	    							"data": data
-	    						},
+	    						url: base_url+"search/update_info/"+data[0].row,
+	    						cache: true,
 	    						success: function(final) {
 	    							if(final) {
-	    								var i,j,temp;
-	    								var count = 0;
-	    								var result = JSON.parse(final);
-	    								var res_per_row = result.length/Math.ceil(data[0].row/2);
-
-	    								// console.log(result[27].data);
-
-	    								if(data[0].row > 1) {
-	    									//use <=
-		    								for(i=0;i<data[0].row;i++) {
-		    									if(i%2) {
-													for(j=0;j<res_per_row;j++) {
-														if(result[count].data != result[count+res_per_row].data) {
-															
-															temp = $('#r'+i+'c'+j).val();
-															temp1 = $('#r'+(i+2)+'c'+j).val();
-
-															console.log("i = "+(i)+" j = "+j+" temp = "+temp);
-															console.log("i+2 = "+(i+2)+" j = "+j+" temp1 = "+temp1);
-
-															//console.log("i = "+i+" j = "+j+" data = "+result[count].data);
-															//console.log("count+res_per_row = "+(count+res_per_row)+" j = "+j+" data = "+result[count+res_per_row].data);
-														}
-														count++;
-		    										}
-		    									}
-		    								}
-	    								}
-
 	    								$('#loader').css("visibility", "hidden");
-	    								// setTimeout(function(){ location.reload(); }, 3000);
-	    								// location.reload();
+	    								location.reload();
 	    							}
 	    							else {
-	    								// window.top.location=window.top.location;
+	    								console.log(final.message);
 	    							}
 	    						},
 	    						error: function(err) {
@@ -318,6 +273,14 @@ $(document).ready(function() {
 	        			localStorage['focus']='#search_field';
 	        		}
 	        		else {
+	        			//First Row
+    					$('#loader').css("visibility", "visible");
+    					$("#search_field").val('');
+    					$(".SO_input2").removeAttr('disabled');
+    					$('#loader').css("visibility", "hidden");
+    					$("#snackbar").text('最初の行');
+    					myFunction();
+    					localStorage['focus']='#search_field';
 	        		}
 	    		},
 	    		error: function(e) {

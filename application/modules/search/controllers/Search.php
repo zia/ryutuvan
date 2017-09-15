@@ -20,7 +20,11 @@ class Search extends MY_Controller {
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
 		$data['products'] = $this->db->get()->result();
-		$data['infos'] = $this->db->get('informations')->result();
+
+		$this->db->from('informations');
+		$this->db->order_by("row", "asc");
+		$this->db->order_by("col", "asc");
+		$data['infos'] = $this->db->get()->result();
 
 		//Footer data
 		$footer['title'] = '';
@@ -57,29 +61,25 @@ class Search extends MY_Controller {
 	*
 	* Sorts the table
 	*
-	* @param
-	* @return
+	* @param $r is for Searched_Row
+	* @return $r || 0
 	*/
-	public function update() {
-		$dummy_data = $this->input->get('data');
-		$data = (object) $dummy_data[0];
-
-		if($data->row > 1) {
-			$this->db->set('row', -1, FALSE);
-			$this->db->where('row', $data->row);
+	public function update($r = NULL) {
+		if($r != NULL) {
+			$this->db->set('row', 'NULL', FALSE);
+			$this->db->where('row', $r);
 			$this->db->update('products');
-			for ($row=$data->row; $row > 1; $row-=2) { 
+			for ($row=$r; $row > 1; $row-=2) { 
 				$this->db->set('row', $row, FALSE);
 				$this->db->where('row', $row-2);
 				$this->db->update('products');
 			}
 			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', -1);
+			$this->db->where('row', NULL);
 			$this->db->update('products');
-			echo $data->row;
+			echo $r;
 		}
 		else {
-			/* No change required for first row */
 			echo 0;
 		}
 	}
@@ -92,107 +92,24 @@ class Search extends MY_Controller {
 	* @param
 	* @return
 	*/
-	public function update_info() {
-		$dummy_data = $this->input->get('data');
-		$data = (object) $dummy_data[0];
+	public function update_info($r = NULL) {
+		if($r != NULL) {
+			$this->db->set('row', 'NULL', FALSE);
+			$this->db->where('row', $r);
+			$this->db->update('informations');
 
-		$this->db->select('data');
-		$this->db->from('informations');
-		$this->db->where('informations.row <= ', $data->row);
-		$this->db->join('products', 'products.row = informations.row');
-		$query = $this->db->get()->result();
-
-		echo json_encode($query);
-
-		// $temp = array();
-		// $c= $r = 0;
-		// foreach ($query as $key => $value) {
-		// 	$temp[$r][$c] = $value->data;
-		// 	$c++;
-		// 	if($c==21) {
-		// 		$r++;$c=0;
-		// 	}
-		// }
-		// $count= 0;
-		// for($r=0;$r<2;$r++) {
-		// 	for($c=$count;$c<=$count+20;$c++) {
-		// 		if ($temp[$r][$c] != $temp[$r+1][$c]) {
-		// 			$this->db->select('data');
-		// 			$this->db->from('informations');
-		// 			$this->db->where(array('row'=>3,'col'=>5));
-		// 			$row = $this->db->get()->row();
-
-		// 			echo $row->data;
-		// 		}
-		// 	}
-		// 	$count=0;
-		// 	echo "<hr>";
-		// }
-		// //echo '<pre>';
-		// //print_r($temp);
-		// //echo "</pre>";
-		// exit();
-
-		// $dummy_data = $this->input->get('data');
-		// $data = (object) $dummy_data[0];
-
-		// if($data->row > 1) {
-		// 	$ret = 0;
-		// 	$this->db->select('data');
-		// 	$this->db->from('informations');
-		// 	$this->db->where('row', $data->row);
-		// 	$query = $this->db->get();
-
-		// 	$temp = array();
-		// 	foreach ($query->result() as $key) {
-		// 		$temp[] = $key->data;
-		// 	}
-
-		// 	for($row=$data->row;$row>1;$row-=2) {
-		// 		$this->db->select('data');
-		// 		$this->db->from('informations');
-		// 		$this->db->where('row', $row-2);
-		// 		$query = $this->db->get();
-		// 		$count = 0;
-		// 		foreach ($query->result() as $key) {
-		// 			$this->db->set('data', $key->data, FALSE);
-		// 			$this->db->where(array('row'=>$row,'col'=> $count++));
-		// 			$this->db->update('informations');
-		// 		}
-		// 	}
-
-		// 	for($i=0;$i<count($temp); $i++) {
-		// 		$this->db->set('data', $temp[$i], FALSE);
-		// 		$this->db->where(array('row'=>$row,'col'=> $i));
-		// 		$this->db->update('informations');
-		// 	}
-
-		// 	$ret = 1;
-		// }
-		// else {
-		// 	$ret = 0;
-		// }
-		// echo $ret;
-
-		// if($data->row > 1) {
-		// 	$this->db->set('row', -1, FALSE);
-		// 	$this->db->where('row', $data->row);
-		// 	$this->db->update('informations');
-
-		// 	for ($row=$data->row; $row > 1; $row-=2) { 
-		// 		$this->db->set('row', $row, FALSE);
-		// 		$this->db->where('row', $row-2);
-		// 		$this->db->update('informations');
-		// 	}
-		// 	$this->db->set('row', 1, FALSE);
-		// 	$this->db->where('row', -1);
-		// 	$this->db->update('informations');
-		// 	echo 1;
-		// }
-		// else {
-		// 	/* No change required for first row */
-		// 	echo 0;
-		// }
-
+			for ($row=$r; $row > 1; $row-=2) { 
+				$this->db->set('row', $row, FALSE);
+				$this->db->where('row', $row-2);
+				$this->db->update('informations');
+			}
+			$this->db->set('row', 1, FALSE);
+			$this->db->where('row', NULL);
+			$this->db->update('informations');
+			echo $r;
+		}
+		else {
+			echo 0;
+		}
 	}
 }
