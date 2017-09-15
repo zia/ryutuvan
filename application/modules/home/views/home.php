@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');?>
 
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-xs-12 table_container">
 		<div class="scroll_div table-responsive">
 			<table class="table table-bordered SO_bg" _fixedhead="rows:0; cols:5">
 				<tr>

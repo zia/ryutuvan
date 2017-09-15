@@ -11,7 +11,11 @@ body { -ms-overflow-style: none; }
 /* Scrollable Table Data */
 div.scroll_div {
 	overflow: auto;
-	scroll-behavior: smooth;
+}
+
+.table_container {
+    /*May Need To Change In Time*/
+    min-height: 600px !important;
 }
 
 /* Product Title */
@@ -114,11 +118,14 @@ div.scroll_div {
     font-size: 16px;
     background-color: #fff;
     background-image: url('https://www.w3schools.com/css/searchicon.png');
-    background-position: 10px 10px;
+    background-position: 11px 11px;
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
     width: 275px;
     margin: 3px;
+    top: 10.5%;
+    left: 50%;
+    position: absolute;
 }
 
 #search_field:focus {
@@ -152,6 +159,7 @@ div.scroll_div {
 
 /* GoTo TOP */
 .go-top {
+    padding: 5px;
     position: fixed;
     top: 50%;
     left: 93%;
@@ -160,6 +168,10 @@ div.scroll_div {
     padding: 1em;
     display: none;
     // border-radius: 25px;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+  color: grey;
 }
 
 /* ----- Internet Explorer specifi rules ----- */

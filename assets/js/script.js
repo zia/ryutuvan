@@ -187,6 +187,10 @@ $(document).ready(function() {
 		    setCaretToPos($(localStorage['focus'])[0], $(localStorage['focus']).val().length);
 		    localStorage['focus']= 0;
 		}
+		else {
+			// Check It Later
+			localStorage['focus']= 0;
+		}
 	}
 });
 
@@ -328,35 +332,6 @@ $(document).ready(function() {
 });
 
 /**
-* Snackbar
-*/
-function myFunction() {
-	var x = document.getElementById("snackbar")
-	x.className = "show";
-	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
-
-/**
-* Prevent Scrolling from Reaching Top and Left
-*/
-$(document).ready(function() {
-	/*
-	var eTop = eLeft = 1;
-	$('.scroll_div').scrollTop(eTop);
-	$('.scroll_div').scrollLeft(eLeft);
-	$('.scroll_div').on("scroll", function(e) {
-		var windowScrollTop = $(this).scrollTop();
-		var windowScrollLeft = $(this).scrollLeft();
-		if(windowScrollTop < eTop) {
-			$(this).scrollTop(eTop);
-		}
-		if(windowScrollLeft < eLeft) {
-			$(this).scrollLeft(eLeft);
-		}
-	});*/
-});
-
-/**
 * Sliding
 * Unfortunately next-column is done manually.
 * Need to check it later.
@@ -398,50 +373,42 @@ $(document).ready(function() {
 	});
 
 	function movePlayer(intMovement) {
-		// console.log('Before :'+$(".scroll_div").scrollLeft());
-
 		$(".scroll_div").animate({
 			'scrollLeft': intMovement
 		},50);
-
-		// console.log('After :'+$(".scroll_div").scrollLeft());
 	}
 });
 
 /**
-* Hide Top Section
-*/
-$(window).bind('mousewheel', function(event) {
-    // if (event.originalEvent.wheelDelta >= 0) {
-    //    $('#topheaderbar').show(500);
-    //    $('.go-top').fadeOut(200);
-    // }
-    // else {
-    //    $('#topheaderbar').hide(500);
-    // }
-});
-
-/**
-* Go to Top and Hide Top Section subsequently
+* Go to Top and Toggle Top Section subsequently
 */
 $(document).ready(function() {
-	// Show or hide the sticky footer button
 	$('.scroll_div').scroll(function() {
 		if ($(this).scrollTop() > 0) {
+			$('#search_field').css({position: 'relative',left: '50%'});
 			$('.go-top').fadeIn(200);
-			$('#topheaderbar').slideUp(200);
+			$('#topheaderbar').hide();
 		} else {
-			$('#topheaderbar').slideDown(350);
+			$('#search_field').css({position: 'absolute',left: '50%'});
+			$('#topheaderbar').show();
 			$('.go-top').fadeOut(200);
 		}
 	});
 	
-	// Animate the scroll to top
 	$('.go-top').click(function(event) {
 		event.preventDefault();
-		$('.scroll_div').animate({scrollTop: 0}, 350);
-		//$('#topheaderbar').show(500);
+		$('#search_field').css({position: 'absolute',left: '50%'});
+		$('.scroll_div').animate({scrollTop: 0}, 200);
 	})
 });
+
+/**
+* Snackbar
+*/
+function myFunction() {
+	var x = document.getElementById("snackbar")
+	x.className = "show";
+	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
 
 //]]>
