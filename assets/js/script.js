@@ -74,14 +74,14 @@ $(document).ready(function() {
 		        		alert('Transaction Error occured');
 		        	}
 		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		//if(old_val < 1000 && result < 1000) {
-		        			//Do nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
+		        		if(old_val < 1000 && result < 1000) {
+		        			Do nothing
+		        		}
+		        		else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		//}
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -112,14 +112,14 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
+		        		if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
+		        			Do Nothing
+		        		}
+		        		else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		//}
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
@@ -148,14 +148,14 @@ $(document).ready(function() {
 		        		alert('Information Error Occured');
 		        	}
 		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
+		        		var old_val = parseInt($("#r"+row+"c"+write).text());
 		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
+		        		if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
+		        			Do Nothing
+		        		}
+		        		else if(old_val.toString().length != result.toString().length) {
 		        			location.reload();
-		        		//}
+		        		}
 		        	}
 		    	},
 		    	error: function(e) {
