@@ -41,12 +41,12 @@ class Search extends MY_Controller {
 	*/
 	public function search_result() {
 		$data = array(
-			'title' => $this->input->get('term'),
+			//'title' => $this->input->get('term'),
 			'quantity' => $this->input->get('term')
 		);
-		$query = $this->db->select('row')
+		$query = $this->db->select('*')
 					->from('products')
-					->or_where($data)->get();
+					->where($data)->get();
 		
 		if($query->num_rows()>0) {
 			echo json_encode($query->result());

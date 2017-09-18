@@ -227,6 +227,14 @@ $(document).ready(function() {
 	        		if(result != 0) {
 	        			data = JSON.parse(result);
 	        			if(event.which == 13 && data[0].row > 1) {
+	        				$('.product_title.table_1').text(data[0].title);
+	        				$('.product_title.table_1').css("color", "#4256f4");
+	        				$('.product_quantity.table_1').text(data[0].quantity);
+	        				$('.product_title.table_1').css("color", "#4256f4");
+	        				$('#r1ca').text(data[0].total_0);
+	        				$('#r1cb').text(data[0].total_1);
+	        				$('#r1cc').text(data[0].total_2);
+
 	        				$('#loader').css("visibility", "visible");
 							$.ajax({
 				    			url: base_url+"search/update/"+data[0].row,
