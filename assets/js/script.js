@@ -348,14 +348,13 @@ $(document).ready(function() {
 $(document).ready(function() {
 	$('.scroll_div').scroll(function() {
 		if ($(this).scrollTop() > 0) {
-			$('#search_field').hide();
 			$('.go-top').fadeIn(200);
+			$('#search_field').hide();
 			$('#topheaderbar').hide();
 		} else {
-			$('#search_field').css({position: 'absolute',left: '50%'});
+			$('.go-top').fadeOut(200);
 			$('#topheaderbar').show();
 			$('#search_field').show();
-			$('.go-top').fadeOut(200);
 		}
 	});
 	

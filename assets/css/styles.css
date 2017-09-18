@@ -123,9 +123,9 @@ div.scroll_div {
     padding: 12px 20px 12px 40px;
     width: 275px;
     margin: 3px;
-    top: 10.5%;
+    top: 31%;
     left: 50%;
-    position: absolute;
+    position: fixed;
 }
 
 #search_field:focus {
