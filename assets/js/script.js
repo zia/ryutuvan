@@ -20,185 +20,75 @@ $(function() {
 
 
 /**
-* Calculation
-* Does the calcultion
+* recursive_ajax
+* Loads The Data
 * @param
 * @return
 */
+var count = 1;
+$(document).ready(function recursive_ajax() {
+		$.ajax({
+			url: base_url+"home/calculate/"+count,
+			cache: true,
+			success: function(res) {
+				res = res.replace(/data/g,'');
+				res = res.replace(/[()]/g,'');
+				res = JSON.parse(res);
+				$("#r"+count+"ca").text(res.a.SUM);
+				$("#r"+count+"cb").text(res.b.SUM);
+				$("#r"+count+"cc").text(res.c.SUM);
+				
+				count+=2;
+				if(count <=13) recursive_ajax();
+			},
+			error: function(err) {
+				console.log(err.message);
+	  		}
+		});
+});
+
+/*
+ * On Change add to the sum
+ * @param
+ * @return 
+*/
+
 $(document).ready(function() {
-	/* Change focus for changed data */
-	$('.SO_input2').on('click', function() {
-	    localStorage['focus'] = '#'+$(this).attr("id");
-	});
-
-	$('.SO_input2').on('focusin', function() {
-	    $(this).data('val', $(this).val());
-	});
-
 	$('.SO_input2').on('change', function(event) {
-    	var prev = $(this).data('val');
-	    var current = $(this).val();
+    	var new_value = parseInt($(this).val());
+		
 		var changed = $(this).attr("id");
-		var product_id = $(this).attr("data-id");
 		var rest = changed.split("c");
 		var col = rest[1];
 		var temp = rest[0].split("r");
 		var row = temp[1];
-		var write = '';
-		if(col%3 == 0) {
-			write = 'a';
-		}
-		else if(col%3 == 1) {
-			write = 'b';
-		}
-		else {
-			write = 'c';
-		}
-	    if(prev > current) {
-	    	var decreased_difference = prev - current;
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"decreased_difference": decreased_difference,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'transaction_error') {
-		        		alert('Transaction Error occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if(old_val < 1000 && result < 1000) {
-		        			//Do nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
-	    else if(prev < current) {
-	    	var increased_difference = current - prev;
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"increased_difference": increased_difference,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'product_error') {
-		        		alert('Product Error occured');
-		        	}
-		        	else if(result == 'information_error') {
-		        		alert('Information Error Occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
-	    else {
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'product_error') {
-		        		alert('Product Error occured');
-		        	}
-		        	else if(result == 'information_error') {
-		        		alert('Information Error Occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
-    });
 
-    function setSelectionRange(input, selectionStart, selectionEnd) {
-	  if (input.setSelectionRange) {
-	    input.focus();
-	    input.setSelectionRange(selectionStart, selectionEnd);
-	  } else if (input.createTextRange) {
-	    var range = input.createTextRange();
-	    range.collapse(true);
-	    range.moveEnd('character', selectionEnd);
-	    range.moveStart('character', selectionStart);
-	    range.select();
-	  }
-	}
+		$.ajax({
+			url: base_url+"home/update/"+row+"/"+col+"/"+new_value,
+			cache: false,
+			success: function(res) {
+				res = res.replace(/data/g,'');
+				res = res.replace(/[()]/g,'');
+				res = JSON.parse(res);
 
-	function setCaretToPos(input, pos) {
-	  setSelectionRange(input, pos, pos);
-	}
-
-	if (typeof(Storage) !== "undefined") {
-		if (localStorage['focus'] != 0 && localStorage['focus'] !== "undefined") {
-		    setCaretToPos($(localStorage['focus'])[0], $(localStorage['focus']).val().length);
-		    localStorage['focus']= 0;
-		}
-		else {
-			// Check It Later
-			localStorage['focus']= 0;
-		}
-	}
+				$("#r"+row+"ca").text(res.a.SUM);
+				$("#r"+row+"cb").text(res.b.SUM);
+				$("#r"+row+"cc").text(res.c.SUM);
+			},
+			error: function(err) {
+				console.log(err.message);
+	  		}
+		});
+		// location.reload();
+	});
 });
 
+
 /**
-* Search and Sort
-* Moves the searched row to top
-* @param
-* @return
+ * Search and Sort
+ * Moves the searched row to top
+ * @param
+ * @return
 */
 $(document).ready(function() {
 	/* Change background for searched row */

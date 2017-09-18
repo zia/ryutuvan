@@ -8,6 +8,10 @@ body { -ms-overflow-style: none; }
     display: none;
 }
 
+.no-wrap {
+    white-space: nowrap;
+}
+
 /* Scrollable Table Data */
 div.scroll_div {
 	overflow: auto;

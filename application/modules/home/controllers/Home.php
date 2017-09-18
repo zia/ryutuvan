@@ -33,89 +33,28 @@ class Home extends MY_Controller {
 		$this->load->view('layouts/footer',$footer);
 	}
 
-	
-	/**
-	 * Updates info
-	 *
-	 * @param
-	 * @return $sum
-	*/
-	public function update() {
-
-		//Input
-		$inp = $this->input->post('number');
-		//row
-		$row = $this->input->post('row');
-		//column
-		$col = $this->input->post('col');
-		//product_id
-		$product_id = $this->input->post('product');
-		//To be written in
-		$write = $this->input->post('write');
-		//Existing summation value
-		$sum = $this->input->post('sum');
-		//If new value is smaller than the previous one
-		$decreased_diff = $this->input->post('decreased_difference');
-		//If new value is greater than the previous one
-		$increased_diff = $this->input->post('increased_difference');
-
-		if(isset($decreased_diff)) {
-			//Decreased difference needs to be deducted
-			$sum = $sum - $decreased_diff;
-		}
-		elseif (isset($increased_diff)) {
-			//Increased difference needs to be added
-			$sum = $sum + $increased_diff;
-		}
-		else {
-			//If the difference is 0 or new and old cell value are same
-			//For new value just add with the previous one
-			$sum = $sum + $inp;
-		}
-
-		if($sum < 0) {
-			// Remove this if negetive value required.
-			$sum = 0;
-		}
-		
-		
-		//Store summation in products
-		if ($write === 'a') {
-			$cell = 'total_0';
-		}
-		elseif ($write === 'b') {
-			$cell = 'total_1';
-		}
-		else {
-			$cell = 'total_2';
-		}
-
-		// Store products in products table
- 		$product_data = array(
-			$cell => $sum
-		);
-		// Store infos in informations table
-		$array = array('row' => $row, 'col' => $col);
-		$info_data = array(
-			'data' => $inp
-		);
-
+	public function update ($row = NULL, $col = NULL, $new_value = NULL) {
 		$this->db->trans_start();
-		
-		//products
-		$this->db->where('id', $product_id);
-		$this->db->update('products', $product_data);
-
-		//infos
-		$this->db->where($array);
-		$this->db->update('informations', $info_data);
-		
+		$this->db->where(array('row' => $row, 'col' => $col));
+		$this->db->update('informations', array('data' => $new_value));
 		$this->db->trans_complete();
-
-		if ($this->db->trans_status() === FALSE) {
-        	return 'transaction_error';
+		if ($this->db->trans_status() === FALSE)
+		    echo 0;
+		else {
+			$data = $this->calculate($row);
+			echo $data;
 		}
-		
-		echo json_encode($sum);
+	}
+
+	public function calculate($row=NULL) {
+		if($row) {
+			$data['a'] = $this->db->query("SELECT SUM(data) FROM `informations` WHERE row=$row and col%3=0")->unbuffered_row();
+			$data['b'] = $this->db->query("SELECT SUM(data) FROM `informations` WHERE row=$row and col%3=1")->unbuffered_row();
+			$data['c'] = $this->db->query("SELECT SUM(data) FROM `informations` WHERE row=$row and col%3=2")->unbuffered_row();
+		}
+		else {
+			$data='';
+		}
+		echo json_encode($data);
 	}
 }

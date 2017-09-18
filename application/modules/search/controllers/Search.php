@@ -17,6 +17,7 @@ class Search extends MY_Controller {
 		//Gather datas for views
 		$data['headings'] = $this->db->get('headings')->result();
 		$data['subheadings'] = $this->db->get('subheadings')->result();
+		
 		$this->db->from('products');
 		$this->db->order_by("row", "asc");
 		$data['products'] = $this->db->get()->result();
@@ -57,12 +58,12 @@ class Search extends MY_Controller {
 	}
 
 	/**
-	* Update Functionality
-	*
-	* Sorts the table
-	*
-	* @param $r is for Searched_Row
-	* @return $r || 0
+	 * Update Functionality
+	 *
+	 * Sorts the table
+	 *
+	 * @param $r is for Searched_Row
+	 * @return $r || 0
 	*/
 	public function update($r = NULL) {
 		if($r != NULL) {
@@ -85,12 +86,12 @@ class Search extends MY_Controller {
 	}
 
 	/**
-	* Update Functionality
-	*
-	* Sorts the info of the products
-	*
-	* @param
-	* @return
+	 * Update Functionality
+	 *
+	 * Sorts the info of the products
+	 *
+	 * @param
+	 * @return
 	*/
 	public function update_info($r = NULL) {
 		if($r != NULL) {
