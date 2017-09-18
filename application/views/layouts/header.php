@@ -30,7 +30,7 @@
 		<div class="row" id="topheaderbar">
 			<div class="col-xs-9 col-sm-4">
 				<h1><?=$title?></h1>
-				<h3>納品日　04月09日</h3>
+				<h3>納品日　<?=date("m")?>月<?=date("d")?>日</h3>
 				<h4>Ｘスーパー殿</h4>
 			</div>
 
