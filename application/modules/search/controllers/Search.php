@@ -8,8 +8,7 @@ class Search extends MY_Controller {
 	 *
 	 * Renders Search View
 	*/
-	public function index()
-	{
+	public function index() {
 		//Header data
 		//Page Title
 		$header['title'] = '手書入力画面';
@@ -40,49 +39,42 @@ class Search extends MY_Controller {
 	 * @param
 	 * @return
 	*/
-	public function search_result() {
-		$data = array(
-			'title' => $this->input->get('term'),
-			'quantity' => $this->input->get('term')
-		);
-		$query = $this->db->select('row')
-					->from('products')
-					->or_where($data)->get();
-		
-		if($query->num_rows()>0) {
-			echo json_encode($query->result());
-		}
-		else {
-			echo 0;
+	public function search_result($term=NULL) {
+		if($term!=NULL) {
+			$query = $this->db->select('row')->from('products')->where('quantity',$term)->get()->unbuffered_row();
+			if(isset($query)) {
+				if($query->row > 1)
+					echo json_encode($query);
+				else echo -1;
+			}
+			else echo 0;
 		}
 	}
 
 	/**
 	 * Update Functionality
 	 *
-	 * Sorts the table
+	 * Sorts the products table
 	 *
 	 * @param $r is for Searched_Row
 	 * @return $r || 0
 	*/
-	public function update($r = NULL) {
-		if($r != NULL) {
-			$this->db->set('row', 'NULL', FALSE);
-			$this->db->where('row', $r);
+	public function update($r=NULL) {
+		if($r!=NULL) {
+			$this->db->set('row','NULL',FALSE);
+			$this->db->where('row',$r);
 			$this->db->update('products');
-			for ($row=$r; $row > 1; $row-=2) { 
-				$this->db->set('row', $row, FALSE);
-				$this->db->where('row', $row-2);
+			for ($row=$r;$row>1;$row-=2) {
+				$this->db->set('row',$row,FALSE);
+				$this->db->where('row',$row-2);
 				$this->db->update('products');
 			}
-			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', NULL);
+			$this->db->set('row',1,FALSE);
+			$this->db->where('row',NULL);
 			$this->db->update('products');
 			echo $r;
 		}
-		else {
-			echo 0;
-		}
+		else echo 0;
 	}
 
 	/**
@@ -90,27 +82,24 @@ class Search extends MY_Controller {
 	 *
 	 * Sorts the info of the products
 	 *
-	 * @param
-	 * @return
+	 * @param $r is for searched row
+	 * @return $r || 0
 	*/
-	public function update_info($r = NULL) {
-		if($r != NULL) {
-			$this->db->set('row', 'NULL', FALSE);
-			$this->db->where('row', $r);
+	public function update_info($r=NULL) {
+		if($r!=NULL) {
+			$this->db->set('row','NULL',FALSE);
+			$this->db->where('row',$r);
 			$this->db->update('informations');
-
-			for ($row=$r; $row > 1; $row-=2) { 
-				$this->db->set('row', $row, FALSE);
-				$this->db->where('row', $row-2);
+			for ($row=$r;$row>1;$row-=2) { 
+				$this->db->set('row',$row,FALSE);
+				$this->db->where('row',$row-2);
 				$this->db->update('informations');
 			}
-			$this->db->set('row', 1, FALSE);
-			$this->db->where('row', NULL);
+			$this->db->set('row',1,FALSE);
+			$this->db->where('row',NULL);
 			$this->db->update('informations');
 			echo $r;
 		}
-		else {
-			echo 0;
-		}
+		else echo 0;
 	}
 }

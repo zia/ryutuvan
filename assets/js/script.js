@@ -1,16 +1,16 @@
 //<![CDATA[
 /**
-* Script.js
-*
-* Scripts for customized functionalities
-*
-* Date Modified : 08.18.2017 (dd.mm.yyyy)
-*
+ * Script.js
+ *
+ * Scripts for customized functionalities
+ *
+ * Date Modified : 08.18.2017 (dd.mm.yyyy)
+ *
 */
 
 /**
-* CSRF
-* Includes and regenerates csrf token on each ajax request
+ * CSRF
+ * Includes and regenerates csrf token on each ajax request
 */
 $(function() {
     $.ajaxSetup({
@@ -18,12 +18,11 @@ $(function() {
     });
 });
 
-
 /**
-* recursive_ajax
-* Loads The Data
-* @param
-* @return
+ * recursive_ajax
+ * On Load Gets The Data
+ * @param
+ * @return
 */
 var count = 1;
 $(document).ready(function recursive_ajax() {
@@ -39,7 +38,7 @@ $(document).ready(function recursive_ajax() {
 				$("#r"+count+"cc").text(res.c.SUM);
 				
 				count+=2;
-				if(count <=13) recursive_ajax();
+				if(count <=25) recursive_ajax();
 			},
 			error: function(err) {
 				console.log(err.message);
@@ -52,7 +51,6 @@ $(document).ready(function recursive_ajax() {
  * @param
  * @return 
 */
-
 $(document).ready(function() {
 	$('.SO_input2').on('change', function(event) {
     	var new_value = parseInt($(this).val());
@@ -83,46 +81,41 @@ $(document).ready(function() {
 	});
 });
 
-
 /**
  * Search and Sort
  * Moves the searched row to top
+ * And Sorts the table accordingly
  * @param
  * @return
 */
 $(document).ready(function() {
-	/* Change background for searched row */
+	/*Change background color for searched row*/
 	if (typeof(Storage) !== "undefined") {
 		if (localStorage['status']) {
 		    $(".table_"+localStorage['status']).css("color", "#4256f4");
 		    localStorage['status']=0;
 		}
 	}
-
 	var term = '';
 	var data = '';
 	var count = 0;
-	$('#search_field').on('keyup', function(event) {
+	$('#search_field').on('change', function(event) {
 		term = $(this).val();
-		if(term != '') {
-			$(".SO_input2").attr('disabled','disabled');
+		if(term) {
 			$.ajax({
-    			url: base_url+"search/search_result",
+    			url: base_url+"search/search_result/"+term,
     			cache: true,
-    			type: "GET",
-    			data: {
-    				"term": term
-    			},
     			success: function(result) {
-	        		if(result != 0) {
+	        		if(result!=0 && result!=-1) {
 	        			data = JSON.parse(result);
-	        			if(event.which == 13 && data[0].row > 1) {
+	        			if(data.row>1) {
+	        				$(".SO_input2").attr('disabled','disabled');
 	        				$('#loader').css("visibility", "visible");
 							$.ajax({
-				    			url: base_url+"search/update/"+data[0].row,
+				    			url: base_url+"search/update/"+data.row,
 				    			cache: true,
 				    			success: function(res) {
-				    				if(res !=0) {
+				    				if(res) {
 				    					localStorage['status']=1;
 				    					localStorage['focus']='#search_field';
 				    				}
@@ -135,7 +128,7 @@ $(document).ready(function() {
 						  		}
 				    		});
 				    		$.ajax({
-	    						url: base_url+"search/update_info/"+data[0].row,
+	    						url: base_url+"search/update_info/"+data.row,
 	    						cache: true,
 	    						success: function(final) {
 	    							if(final) {
@@ -150,27 +143,29 @@ $(document).ready(function() {
 									console.log(err.message);
 			  					}
 	    					});
+	    					$('#loader').css("visibility", "hidden");
+	    					$(".SO_input2").removeAttr('disabled');
 						}
 	        		}
-	        		else if (result == 0 && event.which==13) {
-	        			//No match Found..
-	        			$(this).css("visibility", "visible");
-	        			$("#search_field").val('');
-	        			$(".SO_input2").removeAttr('disabled');
-	        			$("#snackbar").text('一致が見つかりません');
-	        			$(this).css("visibility", "hidden");
-	        			myFunction();
-	        			localStorage['focus']='#search_field';
-	        		}
-	        		else {
+	        		else if (result==-1) {
 	        			//First Row
+	        			$(".SO_input2").attr('disabled','disabled');
     					$('#loader').css("visibility", "visible");
     					$("#search_field").val('');
-    					$(".SO_input2").removeAttr('disabled');
     					$('#loader').css("visibility", "hidden");
-    					$("#snackbar").text('最初の行');
-    					myFunction();
+    					myFunction('最初の行');
+    					$(".SO_input2").removeAttr('disabled');
     					localStorage['focus']='#search_field';
+	        		}
+	        		else {
+	        			//No match Found..
+	        			$(".SO_input2").attr('disabled','disabled');
+	        			$('#loader').css("visibility", "visible");
+	        			$("#search_field").val('');
+	        			$('#loader').css("visibility", "hidden");
+	        			myFunction('一致が見つかりません');
+	        			$(".SO_input2").removeAttr('disabled');
+	        			localStorage['focus']='#search_field';
 	        		}
 	    		},
 	    		error: function(e) {
@@ -179,61 +174,43 @@ $(document).ready(function() {
 	    	});
 		}
 		else {
-			$(".SO_input2").removeAttr('disabled');
 		}
 	});
 });
 
 /**
-* Sliding
-* Unfortunately next-column is done manually.
-* Need to check it later.
-*/
+ * Sliding
+ * Unfortunately next-column is done manually.
+ * Need to check it later.
+ */
 $(document).ready(function() {
-	var inc = [];
-	var i = 0;
-	$('.dynamic_header').each(function(index) {
-    	inc[i] = parseInt($(this).outerWidth(),0);
-    	i++;
-	});
-	i = 0;
-	var count = 1;
-	$("#previous-column").mousedown(function() {
-		timeout = setInterval(function() {
-			if(count > 1)
-        		count -=inc[--i];
-        	else
-        		count = 1;
-        	movePlayer(count);
-    	}, 50);
-    	return false;
-	});
+	var currentItem,prevItem,to_move,nextItem;
+	$("#previous-column").click(function() {
+		currentItem = $(".SO_title3.dynamic_header.move_bitch");
+		prevItem = currentItem.prev();
+		currentItem.removeClass('move_bitch');
+		prevItem.addClass('move_bitch');
+		to_move = $(".move_bitch").outerWidth();
 
-	$("#next-column").mousedown(function() {
-		timeout = setInterval(function() {
-        	if(count < 482)
-        		count +=inc[++i];
-        	else
-        		count = 482;
-        	movePlayer(count);
-    	}, 50);
-    	return false;
+		$('.scroll_div').animate({
+    		scrollLeft: "-="+to_move+"px"
+  		}, 50);
 	});
+	$("#next-column").click(function() {
+		currentItem = $(".SO_title3.dynamic_header.move_bitch");
+		nextItem = currentItem.next();
+		currentItem.removeClass('move_bitch');
+		nextItem.addClass('move_bitch');
+		to_move = $(".move_bitch").outerWidth();
 
-	$("#previous-column, #next-column").mouseup(function() {
-			clearInterval(timeout);
-    		return false;
+		$('.scroll_div').animate({
+    		scrollLeft: "+="+to_move+"px"
+  		}, 50);
 	});
-
-	function movePlayer(intMovement) {
-		$(".scroll_div").animate({
-			'scrollLeft': intMovement
-		},50);
-	}
 });
 
 /**
-* Go to Top and Toggle Top Section subsequently
+ * Go to Top and Toggle Top Section subsequently
 */
 $(document).ready(function() {
 	$('.scroll_div').scroll(function() {
@@ -256,10 +233,11 @@ $(document).ready(function() {
 });
 
 /**
-* Snackbar
+ * Snackbar
 */
-function myFunction() {
-	var x = document.getElementById("snackbar")
+function myFunction(msg) {
+	$("#snackbar").text(msg);
+	var x = document.getElementById("snackbar");
 	x.className = "show";
 	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }

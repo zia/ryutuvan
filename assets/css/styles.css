@@ -8,6 +8,10 @@ body { -ms-overflow-style: none; }
     display: none;
 }
 
+/*table {
+    table-layout: fixed;
+}*/
+
 .no-wrap {
     white-space: nowrap;
 }
@@ -101,10 +105,6 @@ div.scroll_div {
 	border-right: 3px solid black !important;
 }
 
-.static_sub_header {
-	padding: 1px 8px;
-}
-
 #search_row {
 	background: #f4f9ff;
 	height: 60px;
@@ -127,7 +127,7 @@ div.scroll_div {
     padding: 12px 20px 12px 40px;
     width: 275px;
     margin: 3px;
-    top: 31%;
+    top: 30%;
     left: 50%;
     position: fixed;
 }
@@ -184,6 +184,6 @@ div.scroll_div {
 		border-right: 3px solid black;
 	}
 	#loader {
-		top: 30%;
+		top: 29%;
 	}
 }
