@@ -225,12 +225,12 @@ $(document).ready(function() {
     			},
     			success: function(result) {
 	        		if(result != 0) {
-	        			data = JSON.parse(result);
+	        			data = JSON.parse(result);5
 	        			if(event.which == 13 && data[0].row > 1) {
 	        				$('.product_title.table_1').text(data[0].title);
-	        				$('.product_title.table_1').css("color", "#4256f4");
+	        				//$('.product_title.table_1').css("color", "#4256f4");
 	        				$('.product_quantity.table_1').text(data[0].quantity);
-	        				$('.product_title.table_1').css("color", "#4256f4");
+	        				//$('.product_title.table_1').css("color", "#4256f4");
 	        				$('#r1ca').text(data[0].total_0);
 	        				$('#r1cb').text(data[0].total_1);
 	        				$('#r1cc').text(data[0].total_2);
@@ -270,7 +270,7 @@ $(document).ready(function() {
 	    					});
 						}
 	        		}
-	        		else if (result == 0 && event.which==13) {
+	        		else if (event.which==13 && result == 0) {
 	        			//No match Found..
 	        			$(this).css("visibility", "visible");
 	        			$("#search_field").val('');
