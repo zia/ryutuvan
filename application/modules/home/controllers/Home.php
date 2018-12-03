@@ -7,8 +7,7 @@ class Home extends MY_Controller {
 	 * Index Page for this controller.
 	 *
 	*/
-	public function index()
-	{
+	public function index() {
 		//Header data
 		//Page Title
 		$header['title'] = '受注＆欠品入力画面';

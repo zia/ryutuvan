@@ -1,17 +1,17 @@
 //<![CDATA[
 /**
-* Script.js
-*
-* Scripts for customized functionalities
-*
-* Date Modified : 08.18.2017 (dd.mm.yyyy)
-*
-*/
+ * Script.js
+ *
+ * Scripts for customized functionalities
+ *
+ * Date Modified : 08.18.2017 (dd.mm.yyyy)
+ *
+ */
 
 /**
-* CSRF
-* Includes and regenerates csrf token on each ajax request
-*/
+ * CSRF
+ * Includes and regenerates csrf token on each ajax request
+ */
 $(function() {
     $.ajaxSetup({
        data: csfrData
@@ -20,11 +20,11 @@ $(function() {
 
 
 /**
-* Calculation
-* Does the calcultion
-* @param
-* @return
-*/
+ * Calculation
+ * Does the calcultion
+ * @param
+ * @return
+ */
 $(document).ready(function() {
 	/* Change focus for changed data */
 	$('.SO_input2').on('click', function() {
@@ -195,11 +195,11 @@ $(document).ready(function() {
 });
 
 /**
-* Search and Sort
-* Moves the searched row to top
-* @param
-* @return
-*/
+ * Search and Sort
+ * Moves the searched row to top
+ * @param
+ * @return
+ */
 $(document).ready(function() {
 	/* Change background for searched row */
 	if (typeof(Storage) !== "undefined") {
@@ -225,7 +225,10 @@ $(document).ready(function() {
     			},
     			success: function(result) {
 	        		if(result != 0) {
-	        			data = JSON.parse(result);5
+						data = JSON.parse(result);
+
+						// alert(data[0].row);
+
 	        			if(event.which == 13 && data[0].row > 1) {
 	        				$('.product_title.table_1').text(data[0].title);
 	        				//$('.product_title.table_1').css("color", "#4256f4");
@@ -241,6 +244,7 @@ $(document).ready(function() {
 				    			cache: true,
 				    			success: function(res) {
 				    				if(res !=0) {
+										console.log('updating.. '+res);
 				    					localStorage['status']=1;
 				    					localStorage['focus']='#search_field';
 				    				}
@@ -257,6 +261,7 @@ $(document).ready(function() {
 	    						cache: true,
 	    						success: function(final) {
 	    							if(final) {
+										console.log('info..'+final);
 	    								$('#loader').css("visibility", "hidden");
 	    								location.reload();
 	    							}
@@ -303,10 +308,10 @@ $(document).ready(function() {
 });
 
 /**
-* Sliding
-* Unfortunately next-column is done manually.
-* Need to check it later.
-*/
+ * Sliding
+ * Unfortunately next-column is done manually.
+ * Need to check it later.
+ */
 $(document).ready(function() {
 	var inc = [];
 	var i = 0;
@@ -351,8 +356,8 @@ $(document).ready(function() {
 });
 
 /**
-* Go to Top and Toggle Top Section subsequently
-*/
+ * Go to Top and Toggle Top Section subsequently
+ */
 $(document).ready(function() {
 	$('.scroll_div').scroll(function() {
 		if ($(this).scrollTop() > 0) {
@@ -374,8 +379,8 @@ $(document).ready(function() {
 });
 
 /**
-* Snackbar
-*/
+ * Snackbar
+ */
 function myFunction() {
 	var x = document.getElementById("snackbar")
 	x.className = "show";
