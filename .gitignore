@@ -14,3 +14,4 @@ application/config/database.php
 !application/logs/.htaccess
 /vendor/
 Ar9ZwcDl0q/*
+/nbproject/private/

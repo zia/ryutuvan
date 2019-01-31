@@ -6,7 +6,9 @@
 	defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 		</div>
-		<a href="#" class="btn btn-xs btn-danger go-top">ページの先頭へ</a>
+		<a href="#" class="btn btn-xs btn-danger go-top">
+			<i class="fa fa-chevron-up"></i>
+		</a>
 		<div id="snackbar"></div>
 		<!-- Configuration -->
 		<script type="text/javascript">

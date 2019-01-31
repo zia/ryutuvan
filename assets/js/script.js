@@ -28,141 +28,64 @@ $(function() {
 $(document).ready(function() {
 	/* Change focus for changed data */
 	$('.SO_input2').on('click', function() {
-	    localStorage['focus'] = '#'+$(this).attr("id");
+		localStorage['focus'] = '#'+$(this).attr("id");
+		
+		// Check Later
+		if($(this).data('val') === '0') {
+			$(this).val('');
+		}
 	});
 
 	$('.SO_input2').on('focusin', function() {
 	    $(this).data('val', $(this).val());
 	});
-
+	
 	$('.SO_input2').on('change', function(event) {
-    	var prev = $(this).data('val');
-	    var current = $(this).val();
-		var changed = $(this).attr("id");
 		var product_id = $(this).attr("data-id");
+		var val = $(this).val();
+
+		// If value isn't a number keep the previous value.
+		if(isNaN(val)) {
+			val = $(this).data('val');
+			$(this).val(val);
+		}
+		
+		var changed = $(this).attr("id");
 		var rest = changed.split("c");
-		var col = rest[1];
-		var temp = rest[0].split("r");
-		var row = temp[1];
-		var write = '';
-		if(col%3 == 0) {
-			write = 'a';
-		}
-		else if(col%3 == 1) {
-			write = 'b';
-		}
-		else {
-			write = 'c';
-		}
-	    if(prev > current) {
-	    	var decreased_difference = prev - current;
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"decreased_difference": decreased_difference,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'transaction_error') {
-		        		alert('Transaction Error occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if(old_val < 1000 && result < 1000) {
-		        			//Do nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
-	    else if(prev < current) {
-	    	var increased_difference = current - prev;
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"increased_difference": increased_difference,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'product_error') {
-		        		alert('Product Error occured');
-		        	}
-		        	else if(result == 'information_error') {
-		        		alert('Information Error Occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
-	    else {
-	    	$.ajax({
-	    		url: base_url+"home/update",
-	    		type: "POST",
-	    		cache: true,
-	    		data: {
-	    			"number": current,
-	    			"sum": parseInt($("#r"+row+"c"+write).text()),
-	    			"row": row,
-	    			"col": col,
-	    			"write": write,
-	    			"product": product_id
-	    		},
-	    		success: function(result) {
-		        	if(result == 'product_error') {
-		        		alert('Product Error occured');
-		        	}
-		        	else if(result == 'information_error') {
-		        		alert('Information Error Occured');
-		        	}
-		        	else {
-		        		//var old_val = parseInt($("#r"+row+"c"+write).text());
-		        		$("#r"+row+"c"+write).text(result);
-		        		//if((old_val == 0 || old_val < 100) && (result < 100 || result < 1000)) {
-		        			//Do Nothing
-		        		//}
-		        		//else if(old_val.toString().length != result.toString().length) {
-		        			location.reload();
-		        		//}
-		        	}
-		    	},
-		    	error: function(e) {
-					console.log(e.message);
-			  	}
-		    });
-	    }
+		var column = rest[1];
+
+		$.ajax({
+			url: base_url+"home/update_info2",
+			type: "POST",
+			cache: true,
+			data: {
+				"product_id": product_id,
+				"value": val,
+				"column": column
+			},
+			success: function(result) {
+				if(result === 'transaction_error') {
+					alert('Transaction Error occured!');
+				}
+				else {
+					// $("#"+changed).load(" #"+changed);
+					switch (result % 3 ) {
+						case 0:
+							$("#c"+product_id).load(" #c"+product_id);
+					        break;
+						case 1:
+					        $("#a"+product_id).load(" #a"+product_id);
+					        break;
+						default:
+					        $("#b"+product_id).load(" #b"+product_id);
+					}
+					// location.reload();
+				}
+			},
+			error: function(e) {
+				console.log(e.message);
+			  }
+		});
     });
 
     function setSelectionRange(input, selectionStart, selectionEnd) {
@@ -201,7 +124,13 @@ $(document).ready(function() {
  * @return
  */
 $(document).ready(function() {
-	/* Change background for searched row */
+	/* By default hidden, shown when search_button clicked. */
+	$('#search_row').hide();
+	$('#search_button').on('click', function() {
+		$('#search_row').toggle();
+	});
+
+	/* Change background for searched row. */
 	if (typeof(Storage) !== "undefined") {
 		if (localStorage['status']) {
 		    $(".table_"+localStorage['status']).css("color", "#4256f4");
@@ -209,44 +138,58 @@ $(document).ready(function() {
 		}
 	}
 
-	var term = '';
-	var data = '';
+	var term = data = '';
 	var count = 0;
 	$('#search_field').on('keyup', function(event) {
 		term = $(this).val();
 		if(term != '') {
 			$(".SO_input2").attr('disabled','disabled');
 			$.ajax({
-    			url: base_url+"search/search_result",
+    			url: base_url+"home/product_lookup",
     			cache: true,
     			type: "GET",
-    			data: {
-    				"term": term
-    			},
+    			data: {"term": term},
     			success: function(result) {
-	        		if(result != 0) {
-						data = JSON.parse(result);
-
-						// alert(data[0].row);
-
-	        			if(event.which == 13 && data[0].row > 1) {
-	        				$('.product_title.table_1').text(data[0].title);
-	        				//$('.product_title.table_1').css("color", "#4256f4");
-	        				$('.product_quantity.table_1').text(data[0].quantity);
-	        				//$('.product_title.table_1').css("color", "#4256f4");
-	        				$('#r1ca').text(data[0].total_0);
-	        				$('#r1cb').text(data[0].total_1);
-	        				$('#r1cc').text(data[0].total_2);
-
+					// if enter pressed
+					if(event.which == 13) {
+						// if product found
+						if(result != 0) {
+							data = JSON.parse(result);
+							// alert(data[0].id);
 	        				$('#loader').css("visibility", "visible");
 							$.ajax({
-				    			url: base_url+"search/update/"+data[0].row,
+				    			url: base_url+"home/change_position/"+data[0].id,
 				    			cache: true,
 				    			success: function(res) {
-				    				if(res !=0) {
-										console.log('updating.. '+res);
-				    					localStorage['status']=1;
-				    					localStorage['focus']='#search_field';
+									if(res == -1) {
+										//First Row
+										// $(this).css("visibility", "visible");
+										$("#search_field").val('');
+										$(".SO_input2").removeAttr('disabled');
+										$('#loader').css("visibility", "hidden");
+										$("#snackbar").text('Initial Row');
+										myFunction();
+										localStorage['focus']='#search_field';
+									}
+									else if(res !=0) {
+										// $(this).css("visibility", "visible");
+										$("#search_field").val('');
+										for(var i = 1; i <= res; i++) {
+											$("#quantity"+i).load(" #quantity"+i);
+											$("#title"+i).load(" #title"+i);
+										}
+										// $("#scroll_div").empty().load(" #scroll_div");
+
+										$(".SO_input2").removeAttr('disabled');
+										$('#loader').css("visibility", "hidden");
+										$("#snackbar").text('Table Sorted!');
+										myFunction();
+										
+										localStorage['status']=1;
+										localStorage['focus']='#search_field';
+										// location.reload();
+										// console.log('updating.. '+res);
+										// $("#reloadable").load(" #reloadable");
 				    				}
 				    				else {
 				    					console.log(res.message);
@@ -256,44 +199,17 @@ $(document).ready(function() {
 									console.log(err.message);
 						  		}
 				    		});
-				    		$.ajax({
-	    						url: base_url+"search/update_info/"+data[0].row,
-	    						cache: true,
-	    						success: function(final) {
-	    							if(final) {
-										console.log('info..'+final);
-	    								$('#loader').css("visibility", "hidden");
-	    								location.reload();
-	    							}
-	    							else {
-	    								console.log(final.message);
-	    							}
-	    						},
-	    						error: function(err) {
-									console.log(err.message);
-			  					}
-	    					});
 						}
-	        		}
-	        		else if (event.which==13 && result == 0) {
-	        			//No match Found..
-	        			$(this).css("visibility", "visible");
-	        			$("#search_field").val('');
-	        			$(".SO_input2").removeAttr('disabled');
-	        			$("#snackbar").text('一致が見つかりません');
-	        			$(this).css("visibility", "hidden");
-	        			myFunction();
-	        			localStorage['focus']='#search_field';
-	        		}
-	        		else {
-	        			//First Row
-    					$('#loader').css("visibility", "visible");
-    					$("#search_field").val('');
-    					$(".SO_input2").removeAttr('disabled');
-    					$('#loader').css("visibility", "hidden");
-    					$("#snackbar").text('最初の行');
-    					myFunction();
-    					localStorage['focus']='#search_field';
+						//No match Found..
+						else {
+							// $(this).css("visibility", "visible");
+							$("#search_field").val('');
+							$(".SO_input2").removeAttr('disabled');
+							$("#snackbar").text('Product Not Found!');
+							$('#loader').css("visibility", "hidden");
+							myFunction();
+							localStorage['focus']='#search_field';
+						}
 	        		}
 	    		},
 	    		error: function(e) {
